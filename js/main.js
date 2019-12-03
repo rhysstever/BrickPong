@@ -56,14 +56,24 @@ function gameLoop(){
 	// #1 - Calculate "delta time"
 	let dt = 1/app.ticker.FPS;
     if (dt > 1/12) dt=1/12;
+
+    // Check if bricks have been hit
+    for(let b = 0; b < balls.length; b++){
+        for(let i = 0; i < bricks.length; i++){
+            if(rectsIntersect(balls[b], bricks[i])){
+                hitBrick(i);
+            }
+        }
+    }  
 }
 
 function buildBricks(){
     let height = 100;
     let width = 100;
-    for(let i = 0; i < 5; i++){
-        for(let j = 0; j < 3; j++){            
-            let b = new Brick(randColor(), (i * height), (j * width), width, height, 8, 2);
+    let xStart = (sceneWidth / 4) - (width * 3)/4;
+    for(let i = 0; i < 3; i++){
+        for(let j = 0; j < 6; j++){            
+            let b = new Brick(randColor(), xStart + (i * height/2), (j * width/2), width, height, 8, 2);
             bricks.push(b);
             gameScene.addChild(b);
         }
@@ -185,4 +195,10 @@ function startGame(){
     player1.y = 20;
     player2.x = sceneWidth - 50 - player2.width;
     player2.y = 20;
+}
+
+function hitBrick(i=0){
+    let b = bricks[i];
+    b.health = b.health - 1;
+    b.hit();
 }
