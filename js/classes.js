@@ -41,7 +41,7 @@ class Ball extends PIXI.Graphics{
 }
 
 class Player extends PIXI.Graphics{
-    constructor(color=0xFFFFFF, x=0, y=0, width=80, height=80,  id=0, speed=0, maxSpeed=50, score=0){
+    constructor(color=0xFFFFFF, x=0, y=0, width=20, height=80,  id=0, speed=0, maxSpeed=50, score=0){
         super();
         this.beginFill(color);
         this.drawRect(-2,-3,width,height);
@@ -56,10 +56,11 @@ class Player extends PIXI.Graphics{
         Object.seal(this);
     }
 
-    move(speed=0, dt = 1/60){
-        this.speed += speed;
-        if(this.speed > this.maxSpeed)
-            this.speed = this.maxSpeed;
-        this.y += this.speed * dt;
+    move(speed=0, dt = 6){
+        this.y += speed * dt;
+    }
+
+    increaseScore(value=0){
+        score += value;
     }
 }
