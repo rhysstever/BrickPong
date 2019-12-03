@@ -25,7 +25,7 @@ class Ball extends PIXI.Graphics{
     constructor(color=0xFFFFFF, x=0, y=0, radius=4){
         super();
         this.beginFill(color);
-        this.drawCircle(0,0,radius);
+        this.drawCircle(x,y,radius);
         this.endFill();
         this.x = x;
         this.y = y;
