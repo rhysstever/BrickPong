@@ -1,15 +1,25 @@
 "use strict";
 const app = new PIXI.Application(600,600);
 document.body.appendChild(app.view);
+
+const sceneWidth = app.view.width;
+const sceneHeight = app.view.height;
 let stage;
 
 let startScene,gameScene,gameOverScene,winner;
+
+window.onload = setup;
+
+let player1,player2;
+let bricks = [];
+let balls = [];
 
 function setup() {
 	stage = app.stage;
     // #1 - Create the `start` scene
     startScene = new PIXI.Container();
     stage.addChild(startScene);
+    startScene.visible = true;
 	
     // #2 - Create the main `game` scene and make it invisible
     gameScene = new PIXI.Container();
@@ -23,6 +33,16 @@ function setup() {
 	
     // #4 - Create labels for all 3 scenes
     createLabelsAndButtons();
+
+    // #5 - Create players
+    player1 = new Player();
+    player2 = new Player(0xFFFFFF, 0, 0, 80, 80, 1);
+
+    // #6 - Spawn Bricks
+    buildBricks();
+
+    // #6 - run the gameloop
+    app.ticker.add(gameLoop);
 }
 
 function gameLoop(){
@@ -31,6 +51,15 @@ function gameLoop(){
 	// #1 - Calculate "delta time"
 	let dt = 1/app.ticker.FPS;
     if (dt > 1/12) dt=1/12;
+}
+
+function buildBricks(){
+    for(let j = 0; j < 3; j++){
+        for(let i = 0; i < 5; i++){
+            let b = new Brick(0xFFFFFF, (i * this.height), (j * this.width), 100, 250, 8, 2);
+            bricks.push(b);
+        }
+    }   
 }
 
 function createLabelsAndButtons(){
