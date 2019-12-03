@@ -1,4 +1,4 @@
-class Brick extends PIXI.Sprite{
+class Brick extends PIXI.Graphics{
     constructor(color=0xFFFFFF, x=0, y=0, width=50, height=50, health=3, scoreValue=1){
         super();
         this.beginFill(color);
@@ -21,7 +21,7 @@ class Brick extends PIXI.Sprite{
     }
 }
 
-class Ball extends PIXI.Sprite{
+class Ball extends PIXI.Graphics{
     constructor(color=0xFFFFFF, x=0, y=0, radius=4){
         super();
         this.beginFill(color);
@@ -40,7 +40,7 @@ class Ball extends PIXI.Sprite{
     }
 }
 
-class Player extends PIXI.Sprite{
+class Player extends PIXI.Graphics{
     constructor(color=0xFFFFFF, x=0, y=0, width=80, height=80, id=0, score=0){
         super();
         this.beginFill(color);
