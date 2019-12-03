@@ -4,7 +4,7 @@ document.body.appendChild(app.view);
 
 const sceneWidth = app.view.width;
 const sceneHeight = app.view.height;
-const colors = []
+let colors = []
 let stage;
 
 let startScene,gameScene,gameOverScene,winner,gameOverScoreLabel;
@@ -16,6 +16,8 @@ let bricks = [];
 let balls = [];
 
 function setup() {
+    addColors();
+
 	stage = app.stage;
     // #1 - Create the `start` scene
     startScene = new PIXI.Container();
@@ -57,11 +59,11 @@ function gameLoop(){
 }
 
 function buildBricks(){
-    for(let j = 0; j < 3; j++){
-        for(let i = 0; i < 5; i++){
-            let height = 250;
-            let width = 100;
-            let b = new Brick(randColor, (i * height), (j * width), width, height, 8, 2);
+    let height = 100;
+    let width = 100;
+    for(let i = 0; i < 5; i++){
+        for(let j = 0; j < 3; j++){            
+            let b = new Brick(randColor(), (i * height), (j * width), width, height, 8, 2);
             bricks.push(b);
             gameScene.addChild(b);
         }
@@ -77,7 +79,7 @@ function addColors(){
 }
 
 function randColor(){
-    return colors[Math.random() * 5];
+    return colors[parseInt(Math.random() * 5)];
 }
 
 function createLabelsAndButtons(){
