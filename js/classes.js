@@ -56,7 +56,7 @@ class Player extends PIXI.Graphics{
         Object.seal(this);
     }
 
-    move(speed=0, dt = 6){
+    move(speed=0, dt = 60){
         this.y += speed * dt;
     }
 

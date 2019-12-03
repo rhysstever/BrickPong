@@ -57,6 +57,11 @@ function gameLoop(){
 	let dt = 1/app.ticker.FPS;
     if (dt > 1/12) dt=1/12;
 
+    // #2 - Move players (by mouse)
+    let mousePosition = app.renderer.plugins.interaction.mouse.global;
+    player1.y = mousePosition.y;
+    player2.y = mousePosition.y;
+
     // Check if bricks have been hit
     for(let b = 0; b < balls.length; b++){
         for(let i = 0; i < bricks.length; i++){

@@ -30,32 +30,4 @@ window.onkeydown = (e)=>{
         // pauses game
         //console.log("pause");
     }
-
-    if (char == "W"){
-        // move player 1 up
-        //console.log("P1 up");
-        player1.move(-1);
-    }
-    else if (char == "S"){
-        // move player 1 down
-        //console.log("P1 down");
-        player1.move(1);
-    }
-    else{
-        player1.move(0);
-    }
-
-    if (char == "&"){
-        // move player 2 up
-        //console.log("P2 up");
-        player2.move(-1);
-    }
-    else if (char == "("){
-        // move player 2 down
-        //console.log("P2 down");
-        player2.move(1);
-    }
-    else{
-        player2.move(0);
-    }
 };
