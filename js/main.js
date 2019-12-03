@@ -37,7 +37,9 @@ function setup() {
 
     // #5 - Create players
     player1 = new Player();
-    player2 = new Player(0xFFFFFF, 0, 0, 80, 80, 1);
+    player2 = new Player(0xFFFFFF, 0, 0, 20, 80, 1);
+    gameScene.addChild(player1);
+    gameScene.addChild(player2);
 
     // #6 - Spawn Bricks
     buildBricks();
@@ -176,4 +178,9 @@ function startGame(){
     startScene.visible = false;
     gameOverScene.visible = false;
     gameScene.visible = true;
+
+    player1.x = 200;
+    player1.y = 20;
+    player2.x = 800;
+    player2.y = 20;
 }
