@@ -1,8 +1,8 @@
 class Brick extends PIXI.Graphics{
-    constructor(color=0xFFFFFF, x=0, y=0, width=50, height=50, health=3, scoreValue=1){
+    constructor(color=0xFF0000, x=0, y=0, width=50, height=50, health=3, scoreValue=1){
         super();
         this.beginFill(color);
-        this.drawRect(-2,-3,4,6);
+        this.drawRect(x,y,width,height);
         this.endFill();
         this.x = x;
         this.y = y;
