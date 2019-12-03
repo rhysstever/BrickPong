@@ -65,6 +65,16 @@ function gameLoop(){
     let mousePosition = app.renderer.plugins.interaction.mouse.global;
     player1.y = mousePosition.y;
     player2.y = mousePosition.y;
+    
+    if((player1.y > sceneHeight) || (player2.y > sceneHeight)){
+        player1.y = sceneHeight - player1.height;
+        player2.y = sceneHeight - player2.height;
+    }
+    else if((player1.y < 0) || (player2.y < 0))
+    {
+        player1.y = 0;
+        player2.y = 0;
+    }
 
     // Check if bricks have been hit
     for(let b = 0; b < balls.length; b++){
