@@ -24,3 +24,17 @@ function setup() {
     // #4 - Create labels for all 3 scenes
     createLabelsAndButtons();
 }
+
+function gameLoop(){
+	if (paused) return; // keep this commented out for now
+	
+	// #1 - Calculate "delta time"
+	let dt = 1/app.ticker.FPS;
+    if (dt > 1/12) dt=1/12;
+}
+
+function startGame(){
+    startScene.visible = false;
+    gameOverScene.visible = false;
+    gameScene.visible = true;
+}
