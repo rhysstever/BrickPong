@@ -31,6 +31,26 @@ function gameLoop(){
 	// #1 - Calculate "delta time"
 	let dt = 1/app.ticker.FPS;
     if (dt > 1/12) dt=1/12;
+
+    // Key Input, provided by Professor Wheeland's 
+    // "Smooth Keyboard Control Demo"
+    app.ticker.add(()=>{
+		// #1 - Calculate "delta time"
+		let dt = 1/app.ticker.FPS;
+		if (dt > 1/12) dt=1/12;
+		
+		if(keys[keyboard.DOWN]){
+			avatar.dy = avatar.speed;
+		}else if(keys[keyboard.UP]) {
+			avatar.dy = -avatar.speed;
+		}else{
+			avatar.dy = 0;
+		}
+		
+		// #3 - move avatar
+		avatar.update(dt);
+	
+	});
 }
 
 function createLabelsAndButtons(){
