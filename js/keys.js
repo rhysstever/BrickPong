@@ -25,7 +25,6 @@ window.onkeydown = (e)=>{
 //	console.log("keydown=" + e.keyCode);
 	keys[e.keyCode] = true;
 	
-	// checking for other keys - ex. 'p' and 'P' for pausing
 	var char = String.fromCharCode(e.keyCode);
 	if (char == " "){
         // pauses game

@@ -181,8 +181,8 @@ function startGame(){
     gameOverScene.visible = false;
     gameScene.visible = true;
 
-    player1.x = 200;
+    player1.x = 50;
     player1.y = 20;
-    player2.x = 800;
+    player2.x = sceneWidth - 50 - player2.width;
     player2.y = 20;
 }
