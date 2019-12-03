@@ -1,9 +1,10 @@
 "use strict";
-const app = new PIXI.Application(600,600);
+const app = new PIXI.Application(1200,600);
 document.body.appendChild(app.view);
 
 const sceneWidth = app.view.width;
 const sceneHeight = app.view.height;
+const colors = []
 let stage;
 
 let startScene,gameScene,gameOverScene,winner,gameOverScoreLabel;
@@ -46,7 +47,7 @@ function setup() {
 }
 
 function gameLoop(){
-	if (paused) return; // keep this commented out for now
+	//if (paused) return; // keep this commented out for now
 	
 	// #1 - Calculate "delta time"
 	let dt = 1/app.ticker.FPS;
@@ -56,10 +57,25 @@ function gameLoop(){
 function buildBricks(){
     for(let j = 0; j < 3; j++){
         for(let i = 0; i < 5; i++){
-            let b = new Brick(0xFFFFFF, (i * this.height), (j * this.width), 100, 250, 8, 2);
+            let height = 250;
+            let width = 100;
+            let b = new Brick(randColor, (i * height), (j * width), width, height, 8, 2);
             bricks.push(b);
+            gameScene.addChild(b);
         }
     }   
+}
+
+function addColors(){
+    colors.push(0xFF5154);
+    colors.push(0x91A6FF);
+    colors.push(0xFF88DC);
+    colors.push(0xFAFF7F);
+    colors.push(0xEAFDF8);
+}
+
+function randColor(){
+    return colors[Math.random() * 5];
 }
 
 function createLabelsAndButtons(){
