@@ -46,7 +46,11 @@ function setup() {
     // #6 - Spawn Bricks
     buildBricks();
 
-    // #7 - run the gameloop
+    // #8 - Spawn Balls
+    balls.push(new Ball(0x000000, sceneWidth - 3*(sceneWidth / 2), sceneHeight / 2, 5));
+    balls.push(new Ball(0x000000, sceneWidth - (sceneWidth / 2), sceneHeight / 2, 5));
+
+    // #8 - run the gameloop
     app.ticker.add(gameLoop);
 }
 
