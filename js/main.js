@@ -6,7 +6,7 @@ const sceneWidth = app.view.width;
 const sceneHeight = app.view.height;
 let stage;
 
-let startScene,gameScene,gameOverScene,winner;
+let startScene,gameScene,gameOverScene,winner,gameOverScoreLabel;
 
 window.onload = setup;
 
@@ -41,7 +41,7 @@ function setup() {
     // #6 - Spawn Bricks
     buildBricks();
 
-    // #6 - run the gameloop
+    // #7 - run the gameloop
     app.ticker.add(gameLoop);
 }
 
@@ -127,7 +127,7 @@ function createLabelsAndButtons(){
     startScene.addChild(startButton);
 
     //Readd this once we implement scores
-    /*let textStyle = new PIXI.TextStyle({
+    let textStyle = new PIXI.TextStyle({
         fill: 0xFFFFFF,
         fontSize: 18,
         fontFamily: "Futura",
@@ -135,6 +135,7 @@ function createLabelsAndButtons(){
         strokeThickness: 4
     });
 
+    /*
     scoreLabel = new PIXI.Text();
     scoreLabel.style = textStyle;
     scoreLabel.x = 5;
