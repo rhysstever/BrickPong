@@ -31,11 +31,11 @@ window.onkeydown = (e)=>{
         // pauses game
         //console.log("pause");
     }
-    else if (char == "w" || char == "W"){
+    else if (char == "W"){
         // move player 1 up
         //console.log("P1 up");
     }
-    else if (char == "s" || char == "S"){
+    else if (char == "S"){
         // move player 1 down
         //console.log("P1 down");
     }
