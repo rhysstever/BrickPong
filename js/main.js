@@ -50,8 +50,8 @@ function setup() {
     buildBricks();
 
     // #7 - Spawn Balls
-    let ball1 = new Ball(0xFFFFFF, (sceneWidth / 4), sceneHeight / 2, 5);
-    let ball2 = new Ball(0xFFFFFF, 3 * (sceneWidth / 4), sceneHeight / 2, 5);
+    let ball1 = new Ball(0xFFFFFF, 50, 150, 5);
+    let ball2 = new Ball(0xFFFFFF, 600, 150, 5);
     balls.push(ball1);
     balls.push(ball2);
     gameScene.addChild(ball1);
@@ -77,19 +77,21 @@ function gameLoop(){
     player1.bounds();
     player2.bounds();
 
-    // // #4 - Move Balls
-    // for(let b = 0; b < balls.length; b++){
-    //     balls[b].changeVel();
-    //     if(balls[b].x <= balls[b].radius || balls[b].x >= sceneWidth - balls[b].radius){
-    //         balls[b].reflectX();
-    //         balls[b].changeVel();
-    //     }
+    // ===== Moves the balls but doesnt reflect them correctly, idk y =====
+    // #4 - Move Balls
+    for(let b = 0; b < balls.length; b++){
+        balls[b].move(dt);
+        if(balls[b].x <= balls[b].radius || balls[b].x >= sceneWidth - balls[b].radius){
+            balls[b].reflectX();
+            balls[b].move(dt);
+        }
 
-    //     if(b.y <= b.radius || b.y >= sceneHeight - b.radius){
-    //         b.reflectY();
-    //         b.changeVel();
-    //     }
-    // }
+        if(balls[b].y <= balls[b].radius || balls[b].y >= sceneHeight - balls[b].radius){
+            balls[b].reflectY();
+            balls[b].move(dt);
+        }
+    }
+    // ====================================================================
 
     // #5 - Check if ball-bricks collisions
     bulletBrickCollision();    

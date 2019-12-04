@@ -30,13 +30,18 @@ class Ball extends PIXI.Graphics{
         this.x = x;
         this.y = y;
         this.radius = radius;
-        this.fwd = {x:0, y:0};
-        this.speed = 50;
+        this.fwd = getRandomUnitVector();
+        this.speed = 100;
         this.isAlive = true;
     }
 
     changeVel(xVel=0, yVel=0){
         this.fwd = {x:this.fwd.x + xVel, y: this.fwd.y + yVel};
+    }
+
+    move(dt = 1 / 60){
+        this.x += this.fwd.x * this.speed * dt;
+        this.y += this.fwd.y * this.speed * dt;
     }
 
     reflectX(){
