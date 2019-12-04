@@ -46,9 +46,13 @@ function setup() {
     // #6 - Spawn Bricks
     buildBricks();
 
-    // #8 - Spawn Balls
-    balls.push(new Ball(0x000000, sceneWidth - 3*(sceneWidth / 2), sceneHeight / 2, 5));
-    balls.push(new Ball(0x000000, sceneWidth - (sceneWidth / 2), sceneHeight / 2, 5));
+    // #7 - Spawn Balls
+    let ball1 = new Ball(0xFFFFFF, sceneWidth - 3 * (sceneWidth / 4), sceneHeight / 2, 5);
+    let ball2 = new Ball(0xFFFFFF, sceneWidth - (sceneWidth / 4), sceneHeight / 2, 5);
+    balls.push(ball1);
+    balls.push(ball2);
+    gameScene.addChild(ball1);
+    gameScene.addChild(ball2);
 
     // #8 - run the gameloop
     app.ticker.add(gameLoop);
@@ -63,17 +67,24 @@ function gameLoop(){
 
     // #2 - Move players (by mouse)
     let mousePosition = app.renderer.plugins.interaction.mouse.global;
-    player1.y = mousePosition.y;
-    player2.y = mousePosition.y;
+    player1.y = mousePosition.y - (player1.height / 2);
+    player2.y = mousePosition.y - (player1.height / 2);
     
-    if((player1.y > sceneHeight) || (player2.y > sceneHeight)){
-        player1.y = sceneHeight - player1.height;
-        player2.y = sceneHeight - player2.height;
-    }
-    else if((player1.y < 0) || (player2.y < 0))
-    {
-        player1.y = 0;
-        player2.y = 0;
+    // #3 - Bounds checking
+    bounds();
+
+    // #4 - Move Balls
+    for(let b = 0; b < balls.length; b++){
+        balls[b].changeVel();
+        if(balls[b].x <= balls[b].radius || balls[b].x >= sceneWidth - balls[b].radius){
+            balls[b].reflectX();
+            balls[b].changeVel();
+        }
+
+        if(b.y <= b.radius || b.y >= sceneHeight - b.radius){
+            b.reflectY();
+            b.changeVel();
+        }
     }
 
     // Check if bricks have been hit
@@ -84,6 +95,21 @@ function gameLoop(){
             }
         }
     }  
+}
+
+function bounds(){
+    // Player bounds checking
+    if((player1.y > sceneHeight - player1.height) || 
+       (player2.y > sceneHeight - player2.height)){
+        player1.y = sceneHeight - player1.height;
+        player2.y = sceneHeight - player2.height;
+    }
+    
+    if((player1.y < 0) || (player2.y < 0))
+    {
+        player1.y = 0;
+        player2.y = 0;
+    }
 }
 
 function buildBricks(){

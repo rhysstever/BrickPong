@@ -38,6 +38,14 @@ class Ball extends PIXI.Graphics{
     changeVel(xVel=0, yVel=0){
         this.fwd = {x:this.fwd.x + xVel, y: this.fwd.y + yVel};
     }
+
+    reflectX(){
+        this.fwd.x *= -1;
+    }
+
+    reflectY(){
+        this.fwd.y *= -1;
+    }
 }
 
 class Player extends PIXI.Graphics{
