@@ -7,14 +7,14 @@ const sceneHeight = app.view.height;
 let colors = []
 let stage;
 
-let startScene,gameScene,gameOverScene;
+let startScene, gameScene, gameOverScene;
 let titleLabel, startButton, scoreLabel, gameOverScoreLabel, gameOverText, playAgainButton;
 let winner;
 let score = 0;
 
 window.onload = setup;
 
-let player1,player2;
+let player1, player2, ball1, ball2;
 let bricks = [];
 let balls = [];
 
@@ -42,7 +42,7 @@ function setup() {
 
     // #5 - Create players
     player1 = new Player();
-    player2 = new Player(0xFFFFFF, 10, 10, 20, 80, 1);
+    player2 = new Player(0xFFFFFF, 0, 0, 20, 80, 1);
     gameScene.addChild(player1);
     gameScene.addChild(player2);
 
@@ -50,8 +50,8 @@ function setup() {
     buildBricks();
 
     // #7 - Spawn Balls
-    let ball1 = new Ball(0xFFFFFF, 50, 150, 5);
-    let ball2 = new Ball(0xFFFFFF, 600, 150, 5);
+    ball1 = new Ball(0xFFFFFF, 0, 0, 5);
+    ball2 = new Ball(0xFFFFFF, 0, 0, 5);
     balls.push(ball1);
     balls.push(ball2);
     gameScene.addChild(ball1);
@@ -235,6 +235,11 @@ function startGame(){
     player1.y = 20;
     player2.x = sceneWidth - 50 - player2.width;
     player2.y = 20;
+
+    ball1.x = sceneWidth / 4;
+    ball1.y = sceneHeight / 2;
+    ball2.x = 3 * sceneWidth / 4;
+    ball2.y = sceneHeight / 2;
 }
 
 function hitBrick(i=0){
