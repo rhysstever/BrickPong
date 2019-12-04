@@ -67,8 +67,4 @@ class Player extends PIXI.Graphics{
     move(speed=0, dt = 60){
         this.y += speed * dt;
     }
-
-    increaseScore(value=0){
-        score += value;
-    }
 }

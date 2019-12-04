@@ -7,7 +7,10 @@ const sceneHeight = app.view.height;
 let colors = []
 let stage;
 
-let startScene,gameScene,gameOverScene,winner,gameOverScoreLabel;
+let startScene,gameScene,gameOverScene;
+let titleLabel, startButton, scoreLabel, gameOverScoreLabel, gameOverText, playAgainButton;
+let winner;
+let score = 0;
 
 window.onload = setup;
 
@@ -144,36 +147,36 @@ function createLabelsAndButtons(){
         fontFamily: "Futura"
     });
 
-    let startLabel1 = new PIXI.Text("Brick Pong");
-    startLabel1.style = new PIXI.TextStyle({
+    titleLabel = new PIXI.Text("Brick Pong");
+    titleLabel.style = new PIXI.TextStyle({
         fill: 0xFFFFFF,
         fontSize: 96,
         fontFamily: 'Futura',
         stroke: 0xFF0000,
         strokeThickness: 6
     });
-    startLabel1.x = 50;
-    startLabel1.y = 120;
-    startScene.addChild(startLabel1);
+    titleLabel.x = (sceneWidth - titleLabel.width) / 2;
+    titleLabel.y = sceneHeight / 4 - titleLabel.height;
+    startScene.addChild(titleLabel);
 
-    let startLabel2 = new PIXI.Text("Made for 2 players!");
-    startLabel2.style = new PIXI.TextStyle({
-        fill: 0xFFFFFF,
-        fontSize: 32,
-        fontFamily: "Futura",
-        fontStyle: "italic",
-        stroke: 0xFF0000,
-        strokeThickness: 6
-    });
+    // let startLabel2 = new PIXI.Text("Made for 2 players!");
+    // startLabel2.style = new PIXI.TextStyle({
+    //     fill: 0xFFFFFF,
+    //     fontSize: 32,
+    //     fontFamily: "Futura",
+    //     fontStyle: "italic",
+    //     stroke: 0xFF0000,
+    //     strokeThickness: 6
+    // });
 
-    startLabel2.x = 185;
-    startLabel2.y = 300;
-    startScene.addChild(startLabel2);
+    // startLabel2.x = 185;
+    // startLabel2.y = 300;
+    // startScene.addChild(startLabel2);
 
-    let startButton = new PIXI.Text("Start Game");
+    startButton = new PIXI.Text("Start Game");
     startButton.style = buttonStyle;
-    startButton.x = 80;
-    startButton.y = sceneHeight - 100;
+    startButton.x = (sceneWidth - startButton.width) / 2;
+    startButton.y = 3 * (sceneHeight / 4) - startButton.height;
     startButton.interactive = true;
     startButton.buttonMode = true;
     startButton.on("pointerup", startGame);
@@ -190,16 +193,14 @@ function createLabelsAndButtons(){
         strokeThickness: 4
     });
 
-    /*
     scoreLabel = new PIXI.Text();
     scoreLabel.style = textStyle;
-    scoreLabel.x = 5;
-    scoreLabel.y = 5;
+    scoreLabel.x = 10;
+    scoreLabel.y = 10;
     gameScene.addChild(scoreLabel);
-    increaseScoreBy(0);*/
+    increaseScoreBy(0);
 
     //change this text when game is over
-    let gameOverText = new PIXI.Text("Victory for {winner}!");
     textStyle = new PIXI.TextStyle({
         fill: 0xFFFFFF,
         fontSize: 64,
@@ -207,12 +208,14 @@ function createLabelsAndButtons(){
         stroke: 0xFF0000,
         strokeThickness: 6
     });
+    
+    gameOverText = new PIXI.Text("Victory for {winner}!");
     gameOverText.style = textStyle;
     gameOverText.x = 100;
     gameOverText.y = sceneHeight/2 - 160;
     gameOverScene.addChild(gameOverText);
 
-    let playAgainButton = new PIXI.Text("Play Again?");
+    playAgainButton = new PIXI.Text("Play Again?");
     playAgainButton.style = buttonStyle;
     playAgainButton.x = 150;
     playAgainButton.y = sceneHeight - 100;
@@ -246,4 +249,9 @@ function hitBrick(i=0){
     let b = bricks[i];
     b.health = b.health - 1;
     b.hit();
+}
+
+function increaseScoreBy(value){
+    score += value;
+    scoreLabel.text = `Score:  ${score}`;
 }
