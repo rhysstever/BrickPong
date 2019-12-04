@@ -42,7 +42,7 @@ function setup() {
 
     // #5 - Create players
     player1 = new Player();
-    player2 = new Player(0xFFFFFF, 0, 0, 20, 80, 1);
+    player2 = new Player(0xFFFFFF, 10, 10, 20, 80, 1);
     gameScene.addChild(player1);
     gameScene.addChild(player2);
 
@@ -50,8 +50,8 @@ function setup() {
     buildBricks();
 
     // #7 - Spawn Balls
-    let ball1 = new Ball(0xFFFFFF, sceneWidth - 3 * (sceneWidth / 4), sceneHeight / 2, 5);
-    let ball2 = new Ball(0xFFFFFF, sceneWidth - (sceneWidth / 4), sceneHeight / 2, 5);
+    let ball1 = new Ball(0xFFFFFF, (sceneWidth / 4), sceneHeight / 2, 5);
+    let ball2 = new Ball(0xFFFFFF, 3 * (sceneWidth / 4), sceneHeight / 2, 5);
     balls.push(ball1);
     balls.push(ball2);
     gameScene.addChild(ball1);
@@ -74,23 +74,28 @@ function gameLoop(){
     player2.y = mousePosition.y - (player1.height / 2);
     
     // #3 - Bounds checking
-    bounds();
+    player1.bounds();
+    player2.bounds();
 
-    // #4 - Move Balls
-    for(let b = 0; b < balls.length; b++){
-        balls[b].changeVel();
-        if(balls[b].x <= balls[b].radius || balls[b].x >= sceneWidth - balls[b].radius){
-            balls[b].reflectX();
-            balls[b].changeVel();
-        }
+    // // #4 - Move Balls
+    // for(let b = 0; b < balls.length; b++){
+    //     balls[b].changeVel();
+    //     if(balls[b].x <= balls[b].radius || balls[b].x >= sceneWidth - balls[b].radius){
+    //         balls[b].reflectX();
+    //         balls[b].changeVel();
+    //     }
 
-        if(b.y <= b.radius || b.y >= sceneHeight - b.radius){
-            b.reflectY();
-            b.changeVel();
-        }
-    }
+    //     if(b.y <= b.radius || b.y >= sceneHeight - b.radius){
+    //         b.reflectY();
+    //         b.changeVel();
+    //     }
+    // }
 
-    // Check if bricks have been hit
+    // #5 - Check if ball-bricks collisions
+    bulletBrickCollision();    
+}
+
+function bulletBrickCollision(){
     for(let b = 0; b < balls.length; b++){
         for(let i = 0; i < bricks.length; i++){
             if(rectsIntersect(balls[b], bricks[i])){
@@ -98,21 +103,6 @@ function gameLoop(){
             }
         }
     }  
-}
-
-function bounds(){
-    // Player bounds checking
-    if((player1.y > sceneHeight - player1.height) || 
-       (player2.y > sceneHeight - player2.height)){
-        player1.y = sceneHeight - player1.height;
-        player2.y = sceneHeight - player2.height;
-    }
-    
-    if((player1.y < 0) || (player2.y < 0))
-    {
-        player1.y = 0;
-        player2.y = 0;
-    }
 }
 
 function buildBricks(){
