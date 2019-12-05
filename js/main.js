@@ -295,7 +295,7 @@ function collisionDetection(){
         for(let brick of bricks){
             if(rectsIntersect(ball, brick)){
                 // console.log('Brick hit');
-                hitBrick(i);
+                hitBrick(brick);
 
                 // The ball is above or below the brick
                 if((ball.x + ball.radius > brick.x) && (ball.x - ball.radius < brick.x + brick.width))
