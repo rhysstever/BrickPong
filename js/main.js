@@ -261,21 +261,20 @@ function increaseScoreBy(value){
 }
 
 function collisionDetection(){
-    for(let b of balls){
+    for(let ball of balls){
         // Ball-bricks collisions
-        for(let i of bricks){
+        for(let brick of bricks){
             if(rectsIntersect(b, i)){
                 // console.log('Brick hit');
                 hitBrick(i);
 
-                // Checks where the collision is occuring
-                // Up or down collision
-                if(Math.abs(b.x - (i.x + i.width / 2)) < (b.width + i.radius) / 2)
-                    b.reflectY();
-                
-                // Left or right collision
-                if(Math.abs(b.y - (i.y + i.height / 2)) < (b.height + i.radius) / 2)
-                    b.reflectX();
+                // The ball is above or below the brick
+                if((ball.x + ball.radius > brick.x) && (ball.x - ball.radius < brick.x + brick.width))
+                    ball.reflectY();
+
+                // The ball is to the left or right of the brick
+                if((ball.y + ball.radius > brick.y) && (ball.y - ball.radius < brick.y + brick.height))
+                    ball.reflectX();
             }
         }
 
