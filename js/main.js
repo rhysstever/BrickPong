@@ -9,7 +9,7 @@ let stage;
 let paused;
 
 let startScene, gameScene, gameOverScene;
-let titleLabel, startButton, scoreLabel, gameOverScoreLabel, gameOverText, playAgainButton;
+let titleLabel, startButton, scoreLabel, pauseLabel, gameOverScoreLabel, gameOverText, playAgainButton;
 let winner;
 let score = 0;
 
@@ -64,8 +64,17 @@ function setup() {
 }
 
 function gameLoop(){
-    if (paused) return; // keep this commented out for now
+    if (paused){
+        pauseLabel.isAlive = true;
+        gameScene.addChild(pauseLabel);
+        return;
+    } 
+
     if(!gameScene.visible) return;
+
+    // Removes the pause label if not being used
+    pauseLabel.isAlive = false;
+    gameScene.removeChild(pauseLabel);
 	
 	// #1 - Calculate "delta time"
 	let dt = 1/app.ticker.FPS;
@@ -173,19 +182,18 @@ function createLabelsAndButtons(){
     titleLabel.y = sceneHeight / 4 - titleLabel.height;
     startScene.addChild(titleLabel);
 
-    // let startLabel2 = new PIXI.Text("Made for 2 players!");
-    // startLabel2.style = new PIXI.TextStyle({
-    //     fill: 0xFFFFFF,
-    //     fontSize: 32,
-    //     fontFamily: "Futura",
-    //     fontStyle: "italic",
-    //     stroke: 0xFF0000,
-    //     strokeThickness: 6
-    // });
-
-    // startLabel2.x = 185;
-    // startLabel2.y = 300;
-    // startScene.addChild(startLabel2);
+    let startLabel2 = new PIXI.Text("Made for 2 players!");
+    startLabel2.style = new PIXI.TextStyle({
+        fill: 0xFFFFFF,
+        fontSize: 32,
+        fontFamily: "Futura",
+        fontStyle: "italic",
+        stroke: 0xFF0000,
+        strokeThickness: 6
+    });
+    startLabel2.x = (sceneWidth - startLabel2.width) / 2;
+    startLabel2.y = 300;
+    startScene.addChild(startLabel2);
 
     startButton = new PIXI.Text("Start Game");
     startButton.style = buttonStyle;
@@ -213,6 +221,12 @@ function createLabelsAndButtons(){
     scoreLabel.y = 10;
     gameScene.addChild(scoreLabel);
     increaseScoreBy(0);
+
+    pauseLabel = new PIXI.Text();
+    pauseLabel.style = textStyle;
+    pauseLabel.x = 50;
+    pauseLabel.y = sceneHeight - 50;
+    pauseLabel.isAlive = false;
 
     //change this text when game is over
     textStyle = new PIXI.TextStyle({
