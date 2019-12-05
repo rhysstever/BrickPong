@@ -22,7 +22,7 @@ class Brick extends PIXI.Graphics{
 }
 
 class Ball extends PIXI.Graphics{
-    constructor(color=0xFFFFFF, x=0, y=0, radius=4, speed = 100){
+    constructor(color=0xFFFFFF, x=0, y=0, radius=4, speed=100, p1LastHit = true){
         super();
         this.beginFill(color);
         this.drawCircle(x,y,radius);
