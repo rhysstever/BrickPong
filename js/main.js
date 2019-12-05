@@ -131,7 +131,7 @@ function randColor(){
 
 function checkKeys(){
     for(let i = 0; i < keys.length; i++){
-        keys[i].press = () => {
+        keys[i].isDown = () => {
             console.log(keys[i]);            
             switch(i){
                 case 0:
