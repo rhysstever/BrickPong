@@ -333,12 +333,12 @@ function collisionDetection(){
                 hitBrick(brick);
 
                 // The ball is above or below the brick
-                if((ball.x + ball.radius > brick.x) && (ball.x - ball.radius < brick.x + brick.width))
-                    ball.reflectY();
+                if((ball.x + ball.radius > brick.x) || (ball.x - ball.radius < brick.x + brick.width))
+                    ball.reflectX();
 
                 // The ball is to the left or right of the brick
-                if((ball.y + ball.radius > brick.y) && (ball.y - ball.radius < brick.y + brick.height))
-                    ball.reflectX();
+                if((ball.y + ball.radius > brick.y) || (ball.y - ball.radius < brick.y + brick.height))
+                    ball.reflectY();
             }
         }
 
