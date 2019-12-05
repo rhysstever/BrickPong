@@ -50,8 +50,8 @@ function setup() {
     buildBricks();
 
     // #7 - Spawn Balls
-    let ball1 = new Ball(0xFFFFFF, 50, 150, 5);
-    let ball2 = new Ball(0xFFFFFF, 600, 150, 5);
+    let ball1 = new Ball(0xFFFFFF, 6, 6, 5);
+    let ball2 = new Ball(0xFFFFFF, sceneWidth - 6, 6, 5);
     balls.push(ball1);
     balls.push(ball2);
     gameScene.addChild(ball1);
@@ -62,7 +62,8 @@ function setup() {
 }
 
 function gameLoop(){
-	//if (paused) return; // keep this commented out for now
+    //if (paused) return; // keep this commented out for now
+    if(!gameScene.visible) return;
 	
 	// #1 - Calculate "delta time"
 	let dt = 1/app.ticker.FPS;
@@ -102,6 +103,7 @@ function bulletBrickCollision(){
         for(let i = 0; i < bricks.length; i++){
             if(rectsIntersect(balls[b], bricks[i])){
                 hitBrick(i);
+                balls[b].reflectX();
             }
         }
     }  
