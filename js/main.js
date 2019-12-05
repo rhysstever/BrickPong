@@ -50,8 +50,8 @@ function setup() {
     buildBricks();
 
     // #7 - Spawn Balls
-    ball1 = new Ball(0xFFFFFF, 0, 0, 5);
-    ball2 = new Ball(0xFFFFFF, 0, 0, 5);
+    ball1 = new Ball(0xFFFFFF, 0, 0, 5, 200);
+    ball2 = new Ball(0xFFFFFF, 0, 0, 5, 200);
     balls.push(ball1);
     balls.push(ball2);
     gameScene.addChild(ball1);
@@ -77,47 +77,39 @@ function gameLoop(){
     player1.bounds();
     player2.bounds();
 
-    // ===== Moves the balls but doesnt reflect them correctly, idk y =====
     // #4 - Move Balls
-    for(let b = 0; b < balls.length; b++){
-        balls[b].move(dt);
-        if(balls[b].x <= balls[b].radius || balls[b].x >= sceneWidth - balls[b].radius){
-            balls[b].reflectX();
-            balls[b].move(dt);
+    for(let b of balls){
+        b.move(dt);
+
+        // Ball hitting top and bottom "walls"
+        // Will reflect and keep going
+        if(b.y <= b.radius || b.y >= sceneHeight - b.radius){
+            b.reflectY();
+            b.move(dt);
         }
 
-        if(balls[b].y <= balls[b].radius || balls[b].y >= sceneHeight - balls[b].radius){
-            balls[b].reflectY();
-            balls[b].move(dt);
+        // Ball hitting either side "goal"
+        // Will be removed from the scene
+        if(b.x <= -100 || b.x >= sceneWidth){
+            gameScene.removeChild(b);
+            b.isAlive = false;
         }
     }
-    // ====================================================================
 
-    // #5 - Check if ball-bricks collisions
-    bulletBrickCollision();    
-}
+    // #5 - Collision Checks
+    collisionDetection();
 
-function bulletBrickCollision(){
-    for(let b = 0; b < balls.length; b++){
-        for(let i = 0; i < bricks.length; i++){
-            if(rectsIntersect(balls[b], bricks[i])){
-                hitBrick(i);
-            }
+    // #6 - Checking Brick health, removing them if health = 0
+    for(let b of bricks){
+        if(b.health <= 0){
+            gameScene.removeChild(b);
+            b.isAlive = false;
         }
-    }  
-}
-
-function buildBricks(){
-    let height = 100;
-    let width = 100;
-    let xStart = (sceneWidth / 4) - (width * 3)/4;
-    for(let i = 0; i < 3; i++){
-        for(let j = 0; j < 6; j++){            
-            let b = new Brick(randColor(), xStart + (i * height/2), (j * width/2), width, height, 8, 2);
-            bricks.push(b);
-            gameScene.addChild(b);
-        }
-    }   
+    }
+    
+    // #7 - Clean-up
+    balls = balls.filter(b=>b.isAlive);
+    bricks = bricks.filter(b=>b.isAlive);
 }
 
 function addColors(){
@@ -242,13 +234,58 @@ function startGame(){
     ball2.y = sceneHeight / 2;
 }
 
-function hitBrick(i=0){
-    let b = bricks[i];
+function buildBricks(){
+    let height = 100;
+    let width = 100;
+    let xStart = (sceneWidth / 4) - (width * 3)/4;
+    for(let i = 0; i < 3; i++){
+        for(let j = 0; j < 6; j++){            
+            let b = new Brick(randColor(), xStart + (i * height/2), (j * width/2), width, height, 1, 2);
+            bricks.push(b);
+            gameScene.addChild(b);
+        }
+    }   
+}
+
+function hitBrick(b){
     b.health = b.health - 1;
     b.hit();
+    increaseScoreBy(10);
+    // console.log(b.health);
 }
 
 function increaseScoreBy(value){
     score += value;
     scoreLabel.text = `Score:  ${score}`;
+}
+
+function collisionDetection(){
+    for(let b of balls){
+        // Ball-bricks collisions
+        for(let i of bricks){
+            if(rectsIntersect(b, i)){
+                // console.log('Brick hit');
+                hitBrick(i);
+
+                // Checks where the collision is occuring
+                // Up or down collision
+                if(Math.abs(b.x - (i.x + i.width / 2)) < (b.width + i.radius) / 2)
+                    b.reflectY();
+                
+                // Left or right collision
+                if(Math.abs(b.y - (i.y + i.height / 2)) < (b.height + i.radius) / 2)
+                    b.reflectX();
+            }
+        }
+
+        // Ball-bumper collisions
+        if(rectsIntersect(b, player1)){
+            // console.log('Player 1 hit');
+            b.reflectX();
+        }
+        else if(rectsIntersect(b, player2)){
+            // console.log('Player 2 hit');
+            b.reflectX();
+        }
+    }  
 }
