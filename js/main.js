@@ -339,10 +339,10 @@ function collisionDetection(){
                 // console.log('Brick hit');
                 hitBrick(brick, ball);
 
-                let xCond1 = ball.x > brick.x;
-                let xCond2 = ball.x < brick.x + brick.width;
-                let yCond1 = ball.y > brick.y;
-                let yCond2 = ball.y < brick.y + brick.height;
+                let xCond1 = ball.x / 2 > brick.x;
+                let xCond2 = ball.x / 2 < brick.x + brick.width;
+                let yCond1 = ball.y / 2 > brick.y;
+                let yCond2 = ball.y / 2 < brick.y + brick.height;
 
                 console.log("Hit");
                 console.log("xCond1: " + xCond1);
@@ -350,13 +350,14 @@ function collisionDetection(){
                 console.log("yCond1: " + yCond1);
                 console.log("yCond2: " + yCond2);
 
-                console.log("Ball X: " + ball.x);
                 console.log("Brick X: " + brick.x);
+                console.log("Ball X: " + (ball.x / 2));
                 console.log("Brick xSum: " + (brick.x + brick.width));
-                console.log("Ball Y: " + ball.y);
                 console.log("Brick Y: " + brick.y);
+                console.log("Ball Y: " + (ball.y / 2));
                 console.log("Brick ySum: " + (brick.y + brick.height));                
 
+                
                 // The ball is to the left or right of the brick
                 if(yCond1 && yCond2){
                     ball.reflectX();
