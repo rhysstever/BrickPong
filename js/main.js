@@ -103,6 +103,11 @@ function gameLoop(){
         // Ball hitting either side "goal"
         // Will be removed from the scene
         if(b.x <= -100 || b.x >= sceneWidth){
+            if(b.x >= sceneWidth)
+                increaseScoreBy(100, p1ScoreLabel);
+            else
+                increaseScoreBy(100, p2ScoreLabel);
+
             gameScene.removeChild(b);
             b.isAlive = false;
         }
@@ -308,15 +313,14 @@ function buildBricks(){
     }   
 }
 
-function hitBrick(b){
-    b.health = b.health - 1;
-    b.hit();
+function hitBrick(brick, ball){
+    brick.health = brick.health - 1;
+    brick.hit();
 
-    if(b.p1LastHit)
+    if(ball.p1LastHit)
         increaseScoreBy(10, p1ScoreLabel);
     else 
         increaseScoreBy(10, p2ScoreLabel);
-    // console.log(b.health);
 }
 
 function increaseScoreBy(value, label){
@@ -330,7 +334,7 @@ function collisionDetection(){
         for(let brick of bricks){
             if(rectsIntersect(ball, brick)){
                 // console.log('Brick hit');
-                hitBrick(brick);
+                hitBrick(brick, ball);
 
                 // The ball is above or below the brick
                 if((ball.x + ball.radius > brick.x) && (ball.x - ball.radius < brick.x + brick.width))
