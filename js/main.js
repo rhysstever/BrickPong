@@ -43,8 +43,8 @@ function setup() {
     createLabelsAndButtons();
 
     // #5 - Create players
-    player1 = new Player(0xFFFFFF, 0, 0, 20, 80, 1, 20);
-    player2 = new Player(0xFFFFFF, 0, 0, 20, 80, 1, 20);
+    player1 = new Player(0xFFFFFF, 0, 0, 20, 80, 1, 10);
+    player2 = new Player(0xFFFFFF, 0, 0, 20, 80, 1, 10);
     gameScene.addChild(player1);
     gameScene.addChild(player2);
 
@@ -131,7 +131,8 @@ function randColor(){
 
 function checkKeys(){
     for(let i = 0; i < keys.length; i++){
-        keys[i].press = () => {
+        console.log(keys[i].isDown);
+        if(keys[i].isDown) {
             console.log(keys[i]);            
             switch(i){
                 case 0:
@@ -146,10 +147,11 @@ function checkKeys(){
                 case 3:
                     player2.y += player2.speed;
                     break;
-                case 4:
-                    paused = !paused;
-                    break;
             }
+        }
+
+        keys[4].press = () => {
+            paused = !paused;
         }
     }
 }
