@@ -4,8 +4,9 @@ document.body.appendChild(app.view);
 
 const sceneWidth = app.view.width;
 const sceneHeight = app.view.height;
-let colors = []
+let colors = [];
 let stage;
+let paused;
 
 let startScene, gameScene, gameOverScene;
 let titleLabel, startButton, scoreLabel, gameOverScoreLabel, gameOverText, playAgainButton;
@@ -20,6 +21,7 @@ let balls = [];
 
 function setup() {
     addColors();
+    paused = false;
 
 	stage = app.stage;
     // #1 - Create the `start` scene
@@ -41,8 +43,8 @@ function setup() {
     createLabelsAndButtons();
 
     // #5 - Create players
-    player1 = new Player();
-    player2 = new Player(0xFFFFFF, 0, 0, 20, 80, 1);
+    player1 = new Player(0xFFFFFF, 0, 0, 20, 80, 1, 20);
+    player2 = new Player(0xFFFFFF, 0, 0, 20, 80, 1, 20);
     gameScene.addChild(player1);
     gameScene.addChild(player2);
 
@@ -62,7 +64,7 @@ function setup() {
 }
 
 function gameLoop(){
-    //if (paused) return; // keep this commented out for now
+    if (paused) return; // keep this commented out for now
     if(!gameScene.visible) return;
 	
 	// #1 - Calculate "delta time"
@@ -70,9 +72,11 @@ function gameLoop(){
     if (dt > 1/12) dt=1/12;
 
     // #2 - Move players (by mouse)
+    /*
     let mousePosition = app.renderer.plugins.interaction.mouse.global;
     player1.y = mousePosition.y - (player1.height / 2);
-    player2.y = mousePosition.y - (player1.height / 2);
+    player2.y = mousePosition.y - (player1.height / 2);*/
+    checkKeys();
     
     // #3 - Bounds checking
     player1.bounds();
@@ -123,6 +127,31 @@ function addColors(){
 
 function randColor(){
     return colors[parseInt(Math.random() * 5)];
+}
+
+function checkKeys(){
+    for(let i = 0; i < keys.length; i++){
+        keys[i].press = () => {
+            console.log(keys[i]);            
+            switch(i){
+                case 0:
+                    player1.y += player1.speed;
+                    break;
+                case 1:
+                    player1.y -= player1.speed;
+                    break;
+                case 2:
+                    player2.y += player2.speed;
+                    break;
+                case 3:
+                    player2.y -= player2.speed;
+                    break;
+                case 4:
+                    paused = !paused;
+                    break;
+            }
+        }
+    }
 }
 
 function createLabelsAndButtons(){
