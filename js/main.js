@@ -293,9 +293,9 @@ function collisionDetection(){
     for(let ball of balls){
         // Ball-bricks collisions
         for(let brick of bricks){
-            if(rectsIntersect(b, i)){
+            if(rectsIntersect(ball, brick)){
                 // console.log('Brick hit');
-                hitBrick(i);
+                hitBrick(brick);
 
                 // The ball is above or below the brick
                 if((ball.x + ball.radius > brick.x) && (ball.x - ball.radius < brick.x + brick.width))
@@ -308,11 +308,11 @@ function collisionDetection(){
         }
 
         // Ball-bumper collisions
-        if(rectsIntersect(b, player1)){
+        if(rectsIntersect(ball, player1)){
             // console.log('Player 1 hit');
             b.reflectX();
         }
-        else if(rectsIntersect(b, player2)){
+        else if(rectsIntersect(ball, player2)){
             // console.log('Player 2 hit');
             b.reflectX();
         }
