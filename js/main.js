@@ -11,7 +11,6 @@ let paused;
 let startScene, gameScene, gameOverScene;
 let titleLabel, startButton, p1ScoreLabel, p2ScoreLabel, pauseLabel, gameOverScoreLabel, gameOverText, playAgainButton;
 let winner;
-let score = 0;
 
 window.onload = setup;
 
@@ -40,13 +39,15 @@ function setup() {
     stage.addChild(gameOverScene);
 	
     // #4 - Create labels for all 3 scenes
-    createLabelsAndButtons();
+    
 
     // #5 - Create players
-    player1 = new Player(0xFFFFFF, 0, 0, 20, 80, 1, 5);
-    player2 = new Player(0xFFFFFF, 0, 0, 20, 80, 1, 5);
+    player1 = new Player(0xFFFFFF, 0, 0, 20, 80, 1, 5, 0);
+    player2 = new Player(0xFFFFFF, 0, 0, 20, 80, 1, 5, 0);
     gameScene.addChild(player1);
     gameScene.addChild(player2);
+
+    createLabelsAndButtons();
 
     // #6 - Spawn Bricks
     buildBricks();
@@ -104,9 +105,9 @@ function gameLoop(){
         // Will be removed from the scene
         if(b.x <= -100 || b.x >= sceneWidth){
             if(b.x >= sceneWidth)
-                increaseScoreBy(100, p1ScoreLabel);
+                increaseScoreBy(100, player1);
             else
-                increaseScoreBy(100, p2ScoreLabel);
+                increaseScoreBy(100, player2);
 
             gameScene.removeChild(b);
             b.isAlive = false;
@@ -225,14 +226,14 @@ function createLabelsAndButtons(){
     p1ScoreLabel.x = 10;
     p1ScoreLabel.y = 10;
     gameScene.addChild(p1ScoreLabel);
-    increaseScoreBy(0, p1ScoreLabel);
+    increaseScoreBy(0, player1);
 
     p2ScoreLabel = new PIXI.Text();
     p2ScoreLabel.style = textStyle;
     p2ScoreLabel.x = sceneWidth - 80 - p2ScoreLabel.width;
     p2ScoreLabel.y = 10;
     gameScene.addChild(p2ScoreLabel);
-    increaseScoreBy(0, p2ScoreLabel);
+    increaseScoreBy(0, player2);
 
     let pauseTextStyle = new PIXI.TextStyle({
         fill: 0xFFFFFF,
@@ -318,14 +319,18 @@ function hitBrick(brick, ball){
     brick.hit();
 
     if(ball.p1LastHit)
-        increaseScoreBy(10, p1ScoreLabel);
+        increaseScoreBy(10, player1);
     else 
-        increaseScoreBy(10, p2ScoreLabel);
+        increaseScoreBy(10, player2);
 }
 
-function increaseScoreBy(value, label){
-    score += value;
-    label.text = `Score:  ${score}`;
+function increaseScoreBy(value, player){
+    player.score += value;
+
+    if(player == player1)
+        p1ScoreLabel.text = `Score:  ${player.score}`;
+    else
+        p2ScoreLabel.text = `Score:  ${player.score}`;
 }
 
 function collisionDetection(){
@@ -339,9 +344,8 @@ function collisionDetection(){
                 // The ball is above or below the brick
                 if((ball.x + ball.radius > brick.x) || (ball.x - ball.radius < brick.x + brick.width))
                     ball.reflectX();
-
                 // The ball is to the left or right of the brick
-                if((ball.y + ball.radius > brick.y) || (ball.y - ball.radius < brick.y + brick.height))
+                else if((ball.y + ball.radius > brick.y) || (ball.y - ball.radius < brick.y + brick.height))
                     ball.reflectY();
             }
         }

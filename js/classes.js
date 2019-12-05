@@ -65,6 +65,7 @@ class Player extends PIXI.Graphics{
         this.height = height;
         this.speed = speed;
         this.maxSpeed = maxSpeed;
+        this.score = score;
         this.isAlive = true;
         Object.seal(this);
     }
