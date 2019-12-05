@@ -213,7 +213,7 @@ function createLabelsAndButtons(){
         fill: 0xFFFFFF,
         fontSize: 18,
         fontFamily: "Futura",
-        stroke: 0xFF00000,
+        stroke: 0xFF0000,
         strokeThickness: 4
     });
 
