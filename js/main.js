@@ -51,8 +51,8 @@ function setup() {
     buildBricks();
 
     // #7 - Spawn Balls
-    ball1 = new Ball(0xFFFFFF, 0, 0, 5, 200, true);
-    ball2 = new Ball(0xFFFFFF, 0, 0, 5, 200, false);
+    ball1 = new Ball(0xFFFFFF, 0, 0, 5, 100, true);
+    ball2 = new Ball(0xFFFFFF, 0, 0, 5, 100, false);
     balls.push(ball1);
     balls.push(ball2);
     gameScene.addChild(ball1);
@@ -289,9 +289,9 @@ function startGame(){
     gameScene.visible = true;
 
     player1.x = 50;
-    player1.y = 20;
+    player1.y = sceneHeight / 2;
     player2.x = sceneWidth - 50 - player2.width;
-    player2.y = 20;
+    player2.y = sceneHeight / 2;
 
     ball1.x = sceneWidth / 4;
     ball1.y = sceneHeight / 2;
@@ -339,12 +339,34 @@ function collisionDetection(){
                 // console.log('Brick hit');
                 hitBrick(brick, ball);
 
-                // The ball is above or below the brick
-                if((ball.x + ball.radius > brick.x) || (ball.x - ball.radius < brick.x + brick.width))
-                    ball.reflectX();
+                let xCond1 = ball.x > brick.x;
+                let xCond2 = ball.x < brick.x + brick.width;
+                let yCond1 = ball.y > brick.y;
+                let yCond2 = ball.y < brick.y + brick.height;
+
+                console.log("Hit");
+                console.log("xCond1: " + xCond1);
+                console.log("xCond2: " + xCond2);
+                console.log("yCond1: " + yCond1);
+                console.log("yCond2: " + yCond2);
+
+                console.log("Ball X: " + ball.x);
+                console.log("Brick X: " + brick.x);
+                console.log("Brick xSum: " + (brick.x + brick.width));
+                console.log("Ball Y: " + ball.y);
+                console.log("Brick Y: " + brick.y);
+                console.log("Brick ySum: " + (brick.y + brick.height));                
+
                 // The ball is to the left or right of the brick
-                else if((ball.y + ball.radius > brick.y) || (ball.y - ball.radius < brick.y + brick.height))
+                if(yCond1 && yCond2){
+                    ball.reflectX();
+                    ball.move();
+                }
+                // The ball is above or below the brick
+                else if(xCond1 && xCond2){
                     ball.reflectY();
+                    ball.move();
+                }
             }
         }
 
