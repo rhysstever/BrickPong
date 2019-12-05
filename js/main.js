@@ -9,7 +9,7 @@ let stage;
 let paused;
 
 let startScene, gameScene, gameOverScene;
-let titleLabel, startButton, scoreLabel, pauseLabel, gameOverScoreLabel, gameOverText, playAgainButton;
+let titleLabel, startButton, p1ScoreLabel, p2ScoreLabel, pauseLabel, gameOverScoreLabel, gameOverText, playAgainButton;
 let winner;
 let score = 0;
 
@@ -43,8 +43,8 @@ function setup() {
     createLabelsAndButtons();
 
     // #5 - Create players
-    player1 = new Player(0xFFFFFF, 0, 0, 20, 80, 1, 10);
-    player2 = new Player(0xFFFFFF, 0, 0, 20, 80, 1, 10);
+    player1 = new Player(0xFFFFFF, 0, 0, 20, 80, 1, 5);
+    player2 = new Player(0xFFFFFF, 0, 0, 20, 80, 1, 5);
     gameScene.addChild(player1);
     gameScene.addChild(player2);
 
@@ -140,9 +140,9 @@ function randColor(){
 
 function checkKeys(){
     for(let i = 0; i < keys.length; i++){
-        console.log(keys[i].isDown);
+        // console.log(keys[i].isDown);
         if(keys[i].isDown) {
-            console.log(keys[i]);            
+            // console.log(keys[i]);            
             switch(i){
                 case 0:
                     player1.y -= player1.speed;
@@ -217,12 +217,19 @@ function createLabelsAndButtons(){
         strokeThickness: 4
     });
 
-    scoreLabel = new PIXI.Text();
-    scoreLabel.style = textStyle;
-    scoreLabel.x = 10;
-    scoreLabel.y = 10;
-    gameScene.addChild(scoreLabel);
-    increaseScoreBy(0);
+    p1ScoreLabel = new PIXI.Text();
+    p1ScoreLabel.style = textStyle;
+    p1ScoreLabel.x = 10;
+    p1ScoreLabel.y = 10;
+    gameScene.addChild(p1ScoreLabel);
+    increaseScoreBy(0, p1ScoreLabel);
+
+    p2ScoreLabel = new PIXI.Text();
+    p2ScoreLabel.style = textStyle;
+    p2ScoreLabel.x = sceneWidth - 80 - p2ScoreLabel.width;
+    p2ScoreLabel.y = 10;
+    gameScene.addChild(p2ScoreLabel);
+    increaseScoreBy(0, p2ScoreLabel);
 
     pauseLabel = new PIXI.Text();
     pauseLabel.style = textStyle;
@@ -296,13 +303,13 @@ function buildBricks(){
 function hitBrick(b){
     b.health = b.health - 1;
     b.hit();
-    increaseScoreBy(10);
+    increaseScoreBy(10, p1ScoreLabel);
     // console.log(b.health);
 }
 
-function increaseScoreBy(value){
+function increaseScoreBy(value, label){
     score += value;
-    scoreLabel.text = `Score:  ${score}`;
+    label.text = `Score:  ${score}`;
 }
 
 function collisionDetection(){
