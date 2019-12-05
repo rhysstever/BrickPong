@@ -131,20 +131,20 @@ function randColor(){
 
 function checkKeys(){
     for(let i = 0; i < keys.length; i++){
-        keys[i].isDown = () => {
+        keys[i].press = () => {
             console.log(keys[i]);            
             switch(i){
                 case 0:
-                    player1.y += player1.speed;
-                    break;
-                case 1:
                     player1.y -= player1.speed;
                     break;
+                case 1:
+                    player1.y += player1.speed;
+                    break;
                 case 2:
-                    player2.y += player2.speed;
+                    player2.y -= player2.speed;
                     break;
                 case 3:
-                    player2.y -= player2.speed;
+                    player2.y += player2.speed;
                     break;
                 case 4:
                     paused = !paused;
