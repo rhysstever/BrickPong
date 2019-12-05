@@ -52,8 +52,8 @@ function setup() {
     buildBricks();
 
     // #7 - Spawn Balls
-    ball1 = new Ball(0xFFFFFF, 0, 0, 5, 200);
-    ball2 = new Ball(0xFFFFFF, 0, 0, 5, 200);
+    ball1 = new Ball(0xFFFFFF, 0, 0, 5, 200, true);
+    ball2 = new Ball(0xFFFFFF, 0, 0, 5, 200, false);
     balls.push(ball1);
     balls.push(ball2);
     gameScene.addChild(ball1);
@@ -65,16 +65,14 @@ function setup() {
 
 function gameLoop(){
     if (paused){
-        pauseLabel.isAlive = true;
-        gameScene.addChild(pauseLabel);
+        pauseLabel.visible = true;
         return;
     } 
 
     if(!gameScene.visible) return;
 
     // Removes the pause label if not being used
-    pauseLabel.isAlive = false;
-    gameScene.removeChild(pauseLabel);
+    pauseLabel.visible = false;
 	
 	// #1 - Calculate "delta time"
 	let dt = 1/app.ticker.FPS;
@@ -213,7 +211,7 @@ function createLabelsAndButtons(){
         fill: 0xFFFFFF,
         fontSize: 18,
         fontFamily: "Futura",
-        stroke: 0xFF00000,
+        stroke: 0xFF0000,
         strokeThickness: 4
     });
 
@@ -231,11 +229,21 @@ function createLabelsAndButtons(){
     gameScene.addChild(p2ScoreLabel);
     increaseScoreBy(0, p2ScoreLabel);
 
-    pauseLabel = new PIXI.Text();
-    pauseLabel.style = textStyle;
-    pauseLabel.x = 50;
-    pauseLabel.y = sceneHeight - 50;
-    pauseLabel.isAlive = false;
+    let pauseTextStyle = new PIXI.TextStyle({
+        fill: 0xFFFFFF,
+        fontSize: 30,
+        fontFamily: "Futura",
+        stroke: 0xFF0000,
+        strokeThickness: 4
+    });
+
+    pauseLabel = new PIXI.Text("Game Paused");
+    pauseLabel.style = pauseTextStyle;
+    // pauseLabel.x = (sceneWidth - pauseLabel.width) / 2;
+    pauseLabel.x = sceneHeight - 100;
+    pauseLabel.y = 200;
+    pauseLabel.visible = true;
+    gameScene.addChild(pauseLabel);
 
     //change this text when game is over
     textStyle = new PIXI.TextStyle({
@@ -303,7 +311,11 @@ function buildBricks(){
 function hitBrick(b){
     b.health = b.health - 1;
     b.hit();
-    increaseScoreBy(10, p1ScoreLabel);
+
+    if(b.p1LastHit)
+        increaseScoreBy(10, p1ScoreLabel);
+    else 
+        increaseScoreBy(10, p2ScoreLabel);
     // console.log(b.health);
 }
 
@@ -333,10 +345,12 @@ function collisionDetection(){
         // Ball-bumper collisions
         if(rectsIntersect(ball, player1)){
             // console.log('Player 1 hit');
+            ball.p1LastHit = true;
             ball.reflectX();
         }
         else if(rectsIntersect(ball, player2)){
             // console.log('Player 2 hit');
+            ball.p1LastHit = false;
             ball.reflectX();
         }
     }  
