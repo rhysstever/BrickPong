@@ -37,16 +37,14 @@ function setup() {
     gameOverScene = new PIXI.Container();
     gameOverScene.visible = false;
     stage.addChild(gameOverScene);
-	
-    // #4 - Create labels for all 3 scenes
-    
 
-    // #5 - Create players
+    // #4 - Create players
     player1 = new Player(0xFFFFFF, 0, 0, 20, 80, 1, 5, 0);
     player2 = new Player(0xFFFFFF, 0, 0, 20, 80, 1, 5, 0);
     gameScene.addChild(player1);
     gameScene.addChild(player2);
 
+    // #5 - Create labels for all 3 scenes
     createLabelsAndButtons();
 
     // #6 - Spawn Bricks
