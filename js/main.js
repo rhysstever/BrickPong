@@ -310,11 +310,11 @@ function collisionDetection(){
         // Ball-bumper collisions
         if(rectsIntersect(ball, player1)){
             // console.log('Player 1 hit');
-            b.reflectX();
+            ball.reflectX();
         }
         else if(rectsIntersect(ball, player2)){
             // console.log('Player 2 hit');
-            b.reflectX();
+            ball.reflectX();
         }
     }  
 }
