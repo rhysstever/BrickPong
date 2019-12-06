@@ -51,8 +51,8 @@ function setup() {
     buildBricks();
 
     // #7 - Spawn Balls
-    ball1 = new Ball(0xFFFFFF, 0, 0, 5, 100, true);
-    ball2 = new Ball(0xFFFFFF, 0, 0, 5, 100, false);
+    ball1 = new Ball(0xFFFFFF, 0, 0, 5, 200, true);
+    ball2 = new Ball(0xFFFFFF, 0, 0, 5, 200, false);
     balls.push(ball1);
     balls.push(ball2);
     gameScene.addChild(ball1);
@@ -102,11 +102,26 @@ function gameLoop(){
         // Ball hitting either side "goal"
         // Will be removed from the scene
         if(b.x <= -100 || b.x >= sceneWidth){
-            if(b.x >= sceneWidth)
+            let ball;
+            if(b.x >= sceneWidth){
                 increaseScoreBy(100, player1);
-            else
+                ball = new Ball(0xFFFFFF, 0, 0, 5, 200, true);
+                gameScene.addChild(ball);
+                ball.x = 200;
+                ball.y = sceneHeight / 2;
+                ball.fwd = getRandomUnitVector();
+                balls.push(ball);
+            }               
+            else{
                 increaseScoreBy(100, player2);
-
+                ball = new Ball(0xFFFFFF, 0, 0, 5, 200, false);
+                ball.x = sceneWidth - 200;
+                ball.y = sceneHeight / 2;
+                ball.fwd = getRandomUnitVector();
+                gameScene.addChild(ball);
+                balls.push(ball);
+            }
+                
             gameScene.removeChild(b);
             b.isAlive = false;
         }
@@ -122,10 +137,21 @@ function gameLoop(){
             b.isAlive = false;
         }
     }
+
+    if(bricks.length == 0){
+        buildBricks();
+    }
     
     // #7 - Clean-up
     balls = balls.filter(b=>b.isAlive);
     bricks = bricks.filter(b=>b.isAlive);
+
+    if(player1.score >= 100 || player2.score >= 100){
+        player1.score >= 100 ? gameOverText.text = "Victory for Player 1!" : gameOverText.text = "Victory for Player 2!"
+        gameScene.visible = false;
+        gameOverScene.visible = true;
+        gameOverScoreLabel.text = "Final Score: " + player1.score + " to " + player2.score;
+    }
 }
 
 function addColors(){

@@ -5,8 +5,8 @@ function rectsIntersect(a,b){
 }
 
 function getRandomUnitVector(){
-    let x = getRandom(-1,1);
-    let y = getRandom(-1,1);
+    let x = getRandom(0,1);
+    let y = getRandom(-.5,.5);
     let length = Math.sqrt(x*x + y*y);
     if(length == 0){ // very unlikely
         x=1; // point right
