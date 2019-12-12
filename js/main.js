@@ -329,8 +329,6 @@ function startGame(){
     gameOverScene.visible = false;
     gameScene.visible = true;
 
-    console.log("start");
-
     player1.x = 50;
     player1.y = sceneHeight / 2;
     player2.x = sceneWidth - 50 - player2.width;
@@ -341,6 +339,12 @@ function startGame(){
     ball2.x = 3 * sceneWidth / 4;
     ball2.y = sceneHeight / 2;
 
+    for(let b in bricks){
+        gameScene.removeChild(b);
+    }
+    
+    buildBricks();
+
     player1.score = 0;
     player2.score = 0;
     increaseScoreBy(0, player1);
@@ -348,6 +352,7 @@ function startGame(){
 }
 
 function buildBricks(){
+    bricks = [];
     let height = 100;
     let width = 100;
     let xStart = (sceneWidth / 4) - (width * 3)/4;
