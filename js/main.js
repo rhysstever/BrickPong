@@ -49,7 +49,7 @@ function setup() {
     createLabelsAndButtons();
 
     // #6 - Spawn Bricks
-    buildBricks();
+    // buildBricks();
 
     // #7 - Spawn Balls
     ball1 = new Ball(0xFFFFFF, 0, 0, 5, 200, true);
@@ -354,8 +354,12 @@ function startGame(){
     ball2.x = 3 * sceneWidth / 4;
     ball2.y = sceneHeight / 2;
 
-    for(let b in bricks){
-        gameScene.removeChild(b);
+    for(let b of bricks){
+        if(b != "0"){
+            b.isAlive = false;
+            gameScene.removeChild(b);
+        }
+        
     }
     
     buildBricks();
