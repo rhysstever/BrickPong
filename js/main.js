@@ -9,7 +9,8 @@ let stage;
 let paused;
 
 let startScene, gameScene, gameOverScene;
-let titleLabel, startButton, p1ScoreLabel, p2ScoreLabel, pauseLabel, pauseLabel2, gameOverScoreLabel, gameOverText, playAgainButton;
+let titleLabel, p1ScoreLabel, p2ScoreLabel, pauseLabel, pauseLabel2, gameOverScoreLabel, gameOverText;
+let startButton, playAgainButton, exitButton;
 let winner;
 
 window.onload = setup;
@@ -52,6 +53,7 @@ function setup() {
 
     // #7 - Spawn Balls
     ball1 = new Ball(0xFFFFFF, 0, 0, 5, 200, true);
+    ball1.changeAng(-ball1.fwd.x, ball1.fwd.y);
     ball2 = new Ball(0xFFFFFF, 0, 0, 5, 200, false);
     balls.push(ball1);
     balls.push(ball2);
@@ -112,6 +114,7 @@ function gameLoop(){
                 ball.x = 200;
                 ball.y = sceneHeight / 2;
                 ball.fwd = getRandomUnitVector();
+                ball.fwd.x = -ball.fwd.x;
                 balls.push(ball);
             }               
             else{
@@ -305,9 +308,16 @@ function createLabelsAndButtons(){
     gameOverText.y = sceneHeight/2 - 160;
     gameOverScene.addChild(gameOverText);
 
+    //Same as winner text when game is over
+    gameOverScoreLabel = new PIXI.Text("Final score: player1.score to player2.score");
+    gameOverScoreLabel.style = textStyle;
+    gameOverScoreLabel.x = (sceneWidth / 2) - 275;
+    gameOverScoreLabel.y = sceneHeight - 300;
+    gameOverScene.addChild(gameOverScoreLabel);
+
     playAgainButton = new PIXI.Text("Play Again?");
     playAgainButton.style = buttonStyle;
-    playAgainButton.x = (sceneWidth / 2) - 100;
+    playAgainButton.x = 3 * (sceneWidth / 4) - playAgainButton.width;
     playAgainButton.y = sceneHeight - 100;
     playAgainButton.interactive = true;
     playAgainButton.buttonMode = true;
@@ -316,12 +326,17 @@ function createLabelsAndButtons(){
     playAgainButton.on("pointerout", e=>e.currentTarget.alpha = 1.0);
     gameOverScene.addChild(playAgainButton);
 
-    //Same as winner text when game is over
-    gameOverScoreLabel = new PIXI.Text("Final score: player1.score to player2.score");
-    gameOverScoreLabel.style = textStyle;
-    gameOverScoreLabel.x = (sceneWidth / 2) - 275;
-    gameOverScoreLabel.y = sceneHeight - 300;
-    gameOverScene.addChild(gameOverScoreLabel);
+    // Make button back to main menu
+    exitButton = new PIXI.Text("Escape");
+    exitButton.style = buttonStyle;
+    exitButton.x = (sceneWidth / 4);
+    exitButton.y = sceneHeight - 100;
+    exitButton.interactive = true;
+    exitButton.buttonMode = true;
+    exitButton.on("pointerup",mainmenu); // startGame is a function reference
+    exitButton.on('pointerover',e=>e.target.alpha = 0.7); // concise arrow function with no brackets
+    exitButton.on('pointerout',e=>e.currentTarget.alpha = 1.0); // ditto
+    gameOverScene.addChild(exitButton);
 }
 
 function startGame(){
@@ -349,6 +364,10 @@ function startGame(){
     player2.score = 0;
     increaseScoreBy(0, player1);
     increaseScoreBy(0, player2);
+}
+
+function mainmenu(){
+    location.reload();
 }
 
 function buildBricks(){
@@ -438,19 +457,21 @@ function collisionDetection(){
     }  
 }
 
-function changeBallVelocity(player, ball){
-    
-}
-
 function changeBallAngle(ball, player){
     // Finds the unit diff between the center of the 
     // bumper and the ball when they collided
-    let diff = (player.y + player.height / 2) - ball.y;
+    let diff = ball.y - (player.y + player.height / 2);
     
     // Finds the new angle 
     let angle = (diff / (player.height / 2)) * 45;
 
-    // Creates a vector2 from the angle found and 
-    // applies it to the ball
-    ball.changeAng(Math.cos(angle), Math.sin(angle));
+    // Creates new x/y components for the ball's direction
+    let newX = Math.cos(angle);
+    let newY = Math.sin(angle);
+
+    if(player == player1)
+        newX = -newX;
+
+    // Applies it to the ball
+    ball.changeAng(newX, newY);
 }
