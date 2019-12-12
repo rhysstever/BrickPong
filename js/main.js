@@ -385,18 +385,18 @@ function collisionDetection(){
                 let yCond1 = ball.y / 2 > brick.y;
                 let yCond2 = ball.y / 2 < brick.y + brick.height;
 
-                console.log("Hit");
-                console.log("xCond1: " + xCond1);
-                console.log("xCond2: " + xCond2);
-                console.log("yCond1: " + yCond1);
-                console.log("yCond2: " + yCond2);
+                // console.log("Hit");
+                // console.log("xCond1: " + xCond1);
+                // console.log("xCond2: " + xCond2);
+                // console.log("yCond1: " + yCond1);
+                // console.log("yCond2: " + yCond2);
 
-                console.log("Brick X: " + brick.x);
-                console.log("Ball X: " + (ball.x / 2));
-                console.log("Brick xSum: " + (brick.x + brick.width));
-                console.log("Brick Y: " + brick.y);
-                console.log("Ball Y: " + (ball.y / 2));
-                console.log("Brick ySum: " + (brick.y + brick.height));                
+                // console.log("Brick X: " + brick.x);
+                // console.log("Ball X: " + (ball.x / 2));
+                // console.log("Brick xSum: " + (brick.x + brick.width));
+                // console.log("Brick Y: " + brick.y);
+                // console.log("Ball Y: " + (ball.y / 2));
+                // console.log("Brick ySum: " + (brick.y + brick.height));                
 
                 
                 // The ball is to the left or right of the brick
@@ -416,12 +416,12 @@ function collisionDetection(){
         if(rectsIntersect(ball, player1)){
             // console.log('Player 1 hit');
             ball.p1LastHit = true;
-            ball.reflectX();
+            changeBallAngle(ball, player1);
         }
         else if(rectsIntersect(ball, player2)){
             // console.log('Player 2 hit');
             ball.p1LastHit = false;
-            ball.reflectX();
+            changeBallAngle(ball, player2);
         }
     }  
 }
@@ -430,7 +430,7 @@ function changeBallVelocity(player, ball){
     
 }
 
-function changeBallAngle(player, ball){
+function changeBallAngle(ball, player){
     // Finds the unit diff between the center of the 
     // bumper and the ball when they collided
     let diff = (player.y + player.height / 2) - ball.y;
@@ -440,6 +440,5 @@ function changeBallAngle(player, ball){
 
     // Creates a vector2 from the angle found and 
     // applies it to the ball
-    ball.fwd.x = ball.speed * Math.cos(angle);
-    ball.fwd.y = ball.speed * Math.sin(angle);
+    ball.changeAng(Math.cos(angle), Math.sin(angle));
 }

@@ -39,6 +39,10 @@ class Ball extends PIXI.Graphics{
         this.fwd = {x:this.fwd.x + xVel, y: this.fwd.y + yVel};
     }
 
+    changeAng(xAng=0, yAng=0){
+        this.fwd = {x:xAng, y:yAng};
+    }
+
     move(dt = 1 / 60){
         this.x += this.fwd.x * this.speed * dt;
         this.y += this.fwd.y * this.speed * dt;
