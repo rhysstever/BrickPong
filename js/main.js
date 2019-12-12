@@ -9,7 +9,7 @@ let stage;
 let paused;
 
 let startScene, gameScene, gameOverScene;
-let titleLabel, startButton, p1ScoreLabel, p2ScoreLabel, pauseLabel, gameOverScoreLabel, gameOverText, playAgainButton;
+let titleLabel, startButton, p1ScoreLabel, p2ScoreLabel, pauseLabel, pauseLabel2, gameOverScoreLabel, gameOverText, playAgainButton;
 let winner;
 
 window.onload = setup;
@@ -65,6 +65,7 @@ function setup() {
 function gameLoop(){
     if (paused){
         pauseLabel.visible = true;
+        pauseLabel2.visible = true;
         return;
     } 
 
@@ -72,6 +73,7 @@ function gameLoop(){
 
     // Removes the pause label if not being used
     pauseLabel.visible = false;
+    pauseLabel2.visible = false;
 	
 	// #1 - Calculate "delta time"
 	let dt = 1/app.ticker.FPS;
@@ -146,8 +148,8 @@ function gameLoop(){
     balls = balls.filter(b=>b.isAlive);
     bricks = bricks.filter(b=>b.isAlive);
 
-    if(player1.score >= 100 || player2.score >= 100){
-        player1.score >= 100 ? gameOverText.text = "Victory for Player 1!" : gameOverText.text = "Victory for Player 2!"
+    if(player1.score >= 500 || player2.score >= 500){
+        player1.score >= 500 ? gameOverText.text = "Victory for Player 1!" : gameOverText.text = "Victory for Player 2!"
         gameScene.visible = false;
         gameOverScene.visible = true;
         gameOverScoreLabel.text = "Final Score: " + player1.score + " to " + player2.score;
@@ -197,16 +199,19 @@ function createLabelsAndButtons(){
     let buttonStyle = new PIXI.TextStyle({
         fill: 0xFF0000,
         fontSize: 48,
-        fontFamily: "Futura"
+        fontFamily: "Florence",
+        fontStyle: "italic",
+        textShadow: "50px 5px 0x00FF00"
     });
 
     titleLabel = new PIXI.Text("Brick Pong");
     titleLabel.style = new PIXI.TextStyle({
         fill: 0xFFFFFF,
         fontSize: 96,
-        fontFamily: 'Futura',
-        stroke: 0xFF0000,
-        strokeThickness: 6
+        fontFamily: 'Florence',
+        fontWeight: 'Bold',
+        stroke: 0xFF5154,
+        strokeThickness: 4
     });
     titleLabel.x = (sceneWidth - titleLabel.width) / 2;
     titleLabel.y = sceneHeight / 4 - titleLabel.height;
@@ -216,9 +221,9 @@ function createLabelsAndButtons(){
     startLabel2.style = new PIXI.TextStyle({
         fill: 0xFFFFFF,
         fontSize: 32,
-        fontFamily: "Futura",
+        fontFamily: "Florence",
         fontStyle: "italic",
-        stroke: 0xFF0000,
+        stroke: 0x91A6FF,
         strokeThickness: 6
     });
     startLabel2.x = (sceneWidth - startLabel2.width) / 2;
@@ -240,7 +245,7 @@ function createLabelsAndButtons(){
     let textStyle = new PIXI.TextStyle({
         fill: 0xFFFFFF,
         fontSize: 18,
-        fontFamily: "Futura",
+        fontFamily: "Florence",
         stroke: 0xFF0000,
         strokeThickness: 4
     });
@@ -262,37 +267,47 @@ function createLabelsAndButtons(){
     let pauseTextStyle = new PIXI.TextStyle({
         fill: 0xFFFFFF,
         fontSize: 30,
-        fontFamily: "Futura",
-        stroke: 0xFF0000,
-        strokeThickness: 4
+        fontFamily: "Florence",
+        stroke: 0x91A6FF,
+        strokeThickness: 6
     });
 
     pauseLabel = new PIXI.Text("Game Paused");
     pauseLabel.style = pauseTextStyle;
+    pauseLabel.parent = pauseLabel;
     // pauseLabel.x = (sceneWidth - pauseLabel.width) / 2;
-    pauseLabel.x = sceneHeight - 100;
+    pauseLabel.x = 125;
     pauseLabel.y = 200;
     pauseLabel.visible = true;
     gameScene.addChild(pauseLabel);
+
+    pauseLabel2 = new PIXI.Text("Game Paused");
+    pauseLabel2.style = pauseTextStyle;
+    pauseLabel2.parent = pauseLabel2;
+    // pauseLabel.x = (sceneWidth - pauseLabel.width) / 2;
+    pauseLabel2.x = sceneWidth - 300;
+    pauseLabel2.y = 200;
+    pauseLabel2.visible = true;
+    gameScene.addChild(pauseLabel2);
 
     //change this text when game is over
     textStyle = new PIXI.TextStyle({
         fill: 0xFFFFFF,
         fontSize: 64,
-        fontFamily: "Futura",
-        stroke: 0xFF0000,
+        fontFamily: "Florence",
+        stroke: 0x91A6FF,
         strokeThickness: 6
     });
     
     gameOverText = new PIXI.Text("Victory for {winner}!");
     gameOverText.style = textStyle;
-    gameOverText.x = 100;
+    gameOverText.x = (sceneWidth / 2) - 250;
     gameOverText.y = sceneHeight/2 - 160;
     gameOverScene.addChild(gameOverText);
 
     playAgainButton = new PIXI.Text("Play Again?");
     playAgainButton.style = buttonStyle;
-    playAgainButton.x = 150;
+    playAgainButton.x = (sceneWidth / 2) - 100;
     playAgainButton.y = sceneHeight - 100;
     playAgainButton.interactive = true;
     playAgainButton.buttonMode = true;
@@ -304,7 +319,7 @@ function createLabelsAndButtons(){
     //Same as winner text when game is over
     gameOverScoreLabel = new PIXI.Text("Final score: player1.score to player2.score");
     gameOverScoreLabel.style = textStyle;
-    gameOverScoreLabel.x = 100;
+    gameOverScoreLabel.x = (sceneWidth / 2) - 275;
     gameOverScoreLabel.y = sceneHeight - 300;
     gameOverScene.addChild(gameOverScoreLabel);
 }
