@@ -410,3 +410,21 @@ function collisionDetection(){
         }
     }  
 }
+
+function changeBallVelocity(player, ball){
+    
+}
+
+function changeBallAngle(player, ball){
+    // Finds the unit diff between the center of the 
+    // bumper and the ball when they collided
+    let diff = (player.y + player.height / 2) - ball.y;
+    
+    // Finds the new angle 
+    let angle = (diff / (player.height / 2)) * 45;
+
+    // Creates a vector2 from the angle found and 
+    // applies it to the ball
+    ball.fwd.x = ball.speed * Math.cos(angle);
+    ball.fwd.y = ball.speed * Math.sin(angle);
+}
