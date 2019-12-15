@@ -2,6 +2,8 @@
 const app = new PIXI.Application(1200,600);
 document.body.appendChild(app.view);
 
+let background;
+
 //Track the size of our app, the stage itself, and a block of colors
 const sceneWidth = app.view.width;
 const sceneHeight = app.view.height;
@@ -20,7 +22,9 @@ let brickSound, playerSound, goalSound, music;
 let backgroundImage;
 
 //Setup event
-window.onload = setup;
+PIXI.loader
+  .add("images/Outrun.png")
+  .load(setup);
 
 //Track all the active components
 let player1, player2, ball1, ball2;
@@ -32,7 +36,17 @@ function setup() {
     addColors();
     paused = false;
 
-	stage = app.stage;
+    //Setup the background from the PIXI loader
+    background = new PIXI.Sprite(PIXI.loader.resources["images/Outrun.png"].texture);
+
+    background.position.x = 0;
+    background.position.y = 0;
+    background.width = sceneWidth;
+    background.height = sceneHeight;
+
+    stage = app.stage;
+    stage.addChild(background);
+    
     // #1 - Create the `start` scene
     startScene = new PIXI.Container();
     stage.addChild(startScene);
