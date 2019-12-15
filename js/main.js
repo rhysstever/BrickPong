@@ -2,24 +2,29 @@
 const app = new PIXI.Application(1200,600);
 document.body.appendChild(app.view);
 
+//Track the size of our app, the stage itself, and a block of colors
 const sceneWidth = app.view.width;
 const sceneHeight = app.view.height;
 let colors = [];
 let stage;
 let paused;
 
+//Lots of variables: each of the scenes, all of the labels, the buttons, and who won
 let startScene, gameScene, gameOverScene;
 let titleLabel, p1ScoreLabel, p2ScoreLabel, pauseLabel, pauseLabel2, gameOverScoreLabel, gameOverText;
 let startButton, playAgainButton, exitButton;
 let winner;
 
+//Setup event
 window.onload = setup;
 
+//Track all the active components
 let player1, player2, ball1, ball2;
 let bricks = [];
 let balls = [];
 
 function setup() {
+    //Setup colors and the pause function
     addColors();
     paused = false;
 
@@ -65,6 +70,7 @@ function setup() {
 }
 
 function gameLoop(){
+    //Spawn the pause labels before breaking
     if (paused){
         pauseLabel.visible = true;
         pauseLabel2.visible = true;
@@ -81,11 +87,7 @@ function gameLoop(){
 	let dt = 1/app.ticker.FPS;
     if (dt > 1/12) dt=1/12;
 
-    // #2 - Move players (by mouse)
-    /*
-    let mousePosition = app.renderer.plugins.interaction.mouse.global;
-    player1.y = mousePosition.y - (player1.height / 2);
-    player2.y = mousePosition.y - (player1.height / 2);*/
+    // #2 - Move players with multi-key input
     checkKeys();
     
     // #3 - Bounds checking
@@ -143,6 +145,7 @@ function gameLoop(){
         }
     }
 
+    //If there aren't any bricks, spawn some
     if(bricks.length == 0){
         buildBricks();
     }
@@ -151,6 +154,7 @@ function gameLoop(){
     balls = balls.filter(b=>b.isAlive);
     bricks = bricks.filter(b=>b.isAlive);
 
+    //Handle game over logic
     if(player1.score >= 500 || player2.score >= 500){
         player1.score >= 500 ? gameOverText.text = "Victory for Player 1!" : gameOverText.text = "Victory for Player 2!"
         gameScene.visible = false;
@@ -160,6 +164,7 @@ function gameLoop(){
 }
 
 function addColors(){
+    //Colors from coolors.co
     colors.push(0xFF5154);
     colors.push(0x91A6FF);
     colors.push(0xFF88DC);
@@ -172,10 +177,9 @@ function randColor(){
 }
 
 function checkKeys(){
+    //keys from the keys class
     for(let i = 0; i < keys.length; i++){
-        // console.log(keys[i].isDown);
-        if(keys[i].isDown) {
-            // console.log(keys[i]);            
+        if(keys[i].isDown) {         
             switch(i){
                 case 0:
                     player1.y -= player1.speed;
@@ -340,20 +344,24 @@ function createLabelsAndButtons(){
 }
 
 function startGame(){
+    //Set the game scene to active
     startScene.visible = false;
     gameOverScene.visible = false;
     gameScene.visible = true;
 
+    //Spawn players
     player1.x = 50;
     player1.y = sceneHeight / 2;
     player2.x = sceneWidth - 50 - player2.width;
     player2.y = sceneHeight / 2;
 
+    //Spawn balls
     ball1.x = sceneWidth / 4;
     ball1.y = sceneHeight / 2;
     ball2.x = 3 * sceneWidth / 4;
     ball2.y = sceneHeight / 2;
 
+    //Check if any bricks are stored and need to be removed
     for(let b of bricks){
         if(b != "0"){
             b.isAlive = false;
@@ -362,6 +370,7 @@ function startGame(){
         
     }
     
+    //reset bricks and score
     buildBricks();
 
     player1.score = 0;
@@ -375,6 +384,7 @@ function mainmenu(){
 }
 
 function buildBricks(){
+    //Loop through to create 18 bricks
     bricks = [];
     let height = 100;
     let width = 100;
@@ -389,6 +399,7 @@ function buildBricks(){
 }
 
 function hitBrick(brick, ball){
+    //Handle adding score to each different player
     brick.health = brick.health - 1;
     brick.hit();
 
@@ -399,6 +410,7 @@ function hitBrick(brick, ball){
 }
 
 function increaseScoreBy(value, player){
+    //Adds the score directly to the appropriate player object
     player.score += value;
 
     if(player == player1)
@@ -408,11 +420,10 @@ function increaseScoreBy(value, player){
 }
 
 function collisionDetection(){
+    //Outer loop checks both bricks and players
     for(let ball of balls){
-        // Ball-bricks collisions
         for(let brick of bricks){
             if(rectsIntersect(ball, brick)){
-                // console.log('Brick hit');
                 hitBrick(brick, ball);
 
                 let xCond1 = ball.x / 2 > brick.x;
@@ -420,6 +431,7 @@ function collisionDetection(){
                 let yCond1 = ball.y / 2 > brick.y;
                 let yCond2 = ball.y / 2 < brick.y + brick.height;
 
+                // Debug console.logs
                 // console.log("Hit");
                 // console.log("xCond1: " + xCond1);
                 // console.log("xCond2: " + xCond2);
@@ -449,12 +461,10 @@ function collisionDetection(){
 
         // Ball-bumper collisions
         if(rectsIntersect(ball, player1)){
-            // console.log('Player 1 hit');
             ball.p1LastHit = true;
             changeBallAngle(ball, player1);
         }
         else if(rectsIntersect(ball, player2)){
-            // console.log('Player 2 hit');
             ball.p1LastHit = false;
             changeBallAngle(ball, player2);
         }

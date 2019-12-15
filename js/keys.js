@@ -1,41 +1,8 @@
-// From Professor Wheeland's 
-// "Smooth Keyboard Control" Demo
-
-// Modified slightly for our  
-// desired inputs 
-
-/*
-const keyboard = Object.freeze({
-	SPACE: 		32,
-	UP: 		38, 
-    DOWN: 		40,
-    S:          65,
-    W:          87
-});*/
-
-// this is the "key daemon" that we poll every frame
 let keys = [];
 
 addKeys();
 
-/*
-window.onkeyup = (e) => {
-//	console.log("keyup=" + e.keyCode);
-	keys[e.keyCode] = false;
-	e.preventDefault();
-};
-
-window.onkeydown = (e)=>{
-//	console.log("keydown=" + e.keyCode);
-	keys[e.keyCode] = true;
-	
-	var char = String.fromCharCode(e.keyCode);
-	if (char == " "){
-        // pauses game
-        //console.log("pause");
-    }
-};*/
-
+//keyboard utility handles logic
 function addKeys(){
 	keys.push(keyboard("w"));
 	keys.push(keyboard("s"));
@@ -43,3 +10,51 @@ function addKeys(){
 	keys.push(keyboard("ArrowDown"));
 	keys.push(keyboard(" "));
 }
+
+//Credit to 'kittykatattack's input tutorial
+function keyboard(value) {
+    let key = {};
+    key.value = value;
+    key.isDown = false;
+    key.isUp = true;
+    key.press = undefined;
+    key.release = undefined;
+    //The `downHandler`
+    key.downHandler = event => {
+      if (event.key === key.value) {
+        if (key.isUp && key.press) key.press();
+        key.isDown = true;
+        key.isUp = false;
+        event.preventDefault();
+      }
+    };
+  
+    //The `upHandler`
+    key.upHandler = event => {
+      if (event.key === key.value) {
+        if (key.isDown && key.release) key.release();
+        key.isDown = false;
+        key.isUp = true;
+        event.preventDefault();
+      }
+    };
+  
+    //Attach event listeners
+    const downListener = key.downHandler.bind(key);
+    const upListener = key.upHandler.bind(key);
+    
+    window.addEventListener(
+      "keydown", downListener, false
+    );
+    window.addEventListener(
+      "keyup", upListener, false
+    );
+    
+    // Detach event listeners
+    key.unsubscribe = () => {
+      window.removeEventListener("keydown", downListener);
+      window.removeEventListener("keyup", upListener);
+    };
+    
+    return key;
+  }

@@ -1,3 +1,4 @@
+//Brick is a rect with color and health
 class Brick extends PIXI.Graphics{
     constructor(color=0xFF0000, x=0, y=0, width=50, height=50, health=3, scoreValue=1){
         super();
@@ -21,6 +22,7 @@ class Brick extends PIXI.Graphics{
     }
 }
 
+//Ball is a circle with a fwd vector to calculate direction
 class Ball extends PIXI.Graphics{
     constructor(color=0xFFFFFF, x=0, y=0, radius=4, speed=100, p1LastHit = true){
         super();
@@ -35,6 +37,7 @@ class Ball extends PIXI.Graphics{
         this.isAlive = true;
     }
 
+    //Changes the velocity by fully rewriting the vector
     changeVel(xVel=0, yVel=0){
         this.fwd = {x:this.fwd.x + xVel, y: this.fwd.y + yVel};
     }
@@ -43,6 +46,7 @@ class Ball extends PIXI.Graphics{
         this.fwd = {x:xAng, y:yAng};
     }
 
+    //Moves without changing velocity
     move(dt = 1 / 60){
         this.x += this.fwd.x * this.speed * dt;
         this.y += this.fwd.y * this.speed * dt;
@@ -57,6 +61,7 @@ class Ball extends PIXI.Graphics{
     }
 }
 
+//Player can only move up and down, and is restricted by bounds
 class Player extends PIXI.Graphics{
     constructor(color=0xFFFFFF, x=0, y=0, width=20, height=80,  id=0, speed=0, maxSpeed=50, score=0){
         super();
