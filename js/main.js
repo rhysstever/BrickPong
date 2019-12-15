@@ -15,6 +15,10 @@ let titleLabel, p1ScoreLabel, p2ScoreLabel, pauseLabel, pauseLabel2, gameOverSco
 let startButton, playAgainButton, exitButton;
 let winner;
 
+//Media variables
+let brickSound, playerSound, goalSound, music;
+let backgroundImage;
+
 //Setup event
 window.onload = setup;
 
@@ -53,8 +57,19 @@ function setup() {
     // #5 - Create labels for all 3 scenes
     createLabelsAndButtons();
 
-    // #6 - Spawn Bricks
-    // buildBricks();
+    // #6 - Add sounds
+    brickSound = new Howl({
+        src: ["sounds/ding1.wav"]
+    });
+    playerSound = new Howl({
+        src: ["sounds/ding2.wav"]
+    });
+    goalSound = new Howl({
+        src: ["sounds/GoalExplosion.mp3"]
+    });
+    music = new Howl({
+        src: ["sounds/outrunMusic.mp3"]
+    });
 
     // #7 - Spawn Balls
     ball1 = new Ball(0xFFFFFF, 0, 0, 5, 200, true);
@@ -129,6 +144,7 @@ function gameLoop(){
                 balls.push(ball);
             }
                 
+            goalSound.play();
             gameScene.removeChild(b);
             b.isAlive = false;
         }
@@ -370,6 +386,8 @@ function startGame(){
         
     }
     
+    music.play();
+
     //reset bricks and score
     buildBricks();
 
@@ -402,6 +420,8 @@ function hitBrick(brick, ball){
     //Handle adding score to each different player
     brick.health = brick.health - 1;
     brick.hit();
+
+    brickSound.play();
 
     if(ball.p1LastHit)
         increaseScoreBy(10, player1);
@@ -462,10 +482,12 @@ function collisionDetection(){
         // Ball-bumper collisions
         if(rectsIntersect(ball, player1)){
             ball.p1LastHit = true;
+            playerSound.play();
             changeBallAngle(ball, player1);
         }
         else if(rectsIntersect(ball, player2)){
             ball.p1LastHit = false;
+            playerSound.play();
             changeBallAngle(ball, player2);
         }
     }  
