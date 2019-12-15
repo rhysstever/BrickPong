@@ -46,7 +46,7 @@ function setup() {
 
     stage = app.stage;
     stage.addChild(background);
-    
+
     // #1 - Create the `start` scene
     startScene = new PIXI.Container();
     stage.addChild(startScene);
@@ -86,9 +86,9 @@ function setup() {
     });
 
     // #7 - Spawn Balls
-    ball1 = new Ball(0xFFFFFF, 0, 0, 5, 200, true);
+    ball1 = new Ball(0xFF1690, 0x14dbfa, 0, 0, 5, 200, true);
     ball1.changeAng(-ball1.fwd.x, ball1.fwd.y);
-    ball2 = new Ball(0xFFFFFF, 0, 0, 5, 200, false);
+    ball2 = new Ball(0xFF1690, 0x14dbfa, 0, 0, 5, 200, false);
     balls.push(ball1);
     balls.push(ball2);
     gameScene.addChild(ball1);
@@ -140,7 +140,7 @@ function gameLoop(){
             let ball;
             if(b.x >= sceneWidth){
                 increaseScoreBy(100, player1);
-                ball = new Ball(0xFFFFFF, 0, 0, 5, 200, true);
+                ball = new Ball(0xFF1690, 0x14dbfa, 0, 0, 5, 200, true);
                 gameScene.addChild(ball);
                 ball.x = 200;
                 ball.y = sceneHeight / 2;
@@ -150,7 +150,7 @@ function gameLoop(){
             }               
             else{
                 increaseScoreBy(100, player2);
-                ball = new Ball(0xFFFFFF, 0, 0, 5, 200, false);
+                ball = new Ball(0xFF1690, 0x14dbfa, 0, 0, 5, 200, false);
                 ball.x = sceneWidth - 200;
                 ball.y = sceneHeight / 2;
                 ball.fwd = getRandomUnitVector();
@@ -195,8 +195,8 @@ function gameLoop(){
 
 function addColors(){
     //Colors from coolors.co
-    colors.push(0xFF5154);
-    colors.push(0x91A6FF);
+    colors.push(0xFF1690);
+    colors.push(0x14dbfa);
     colors.push(0xFF88DC);
     colors.push(0xFAFF7F);
     colors.push(0xEAFDF8);
@@ -233,12 +233,20 @@ function checkKeys(){
 }
 
 function createLabelsAndButtons(){
+    // Cyberpunk style font, like text
     let buttonStyle = new PIXI.TextStyle({
         fill: 0xFF0000,
         fontSize: 48,
         fontFamily: "Florence",
         fontStyle: "italic",
         textShadow: "50px 5px 0x00FF00"
+    });
+    let textStyle = new PIXI.TextStyle({
+        fill: 0xFFFFFF,
+        fontSize: 18,
+        fontFamily: "Florence",
+        stroke: 0xFF0000,
+        strokeThickness: 4
     });
 
     titleLabel = new PIXI.Text("Brick Pong");
@@ -247,12 +255,22 @@ function createLabelsAndButtons(){
         fontSize: 96,
         fontFamily: 'Florence',
         fontWeight: 'Bold',
-        stroke: 0xFF5154,
+        stroke: 0xFF1690,
         strokeThickness: 4
     });
     titleLabel.x = (sceneWidth - titleLabel.width) / 2;
     titleLabel.y = sceneHeight / 4 - titleLabel.height;
     startScene.addChild(titleLabel);
+
+    let instructionLabel = new PIXI.Text("Use the Up and Down Arrow Keys to Move");
+    instructionLabel.style = new PIXI.TextStyle({
+        fill: 0x14dbfa,
+        fontSize: 32,
+        fontFamily: 'Florence'
+    });
+    instructionLabel.x = (sceneWidth - instructionLabel.width) / 2;
+    instructionLabel.y = sceneHeight - 100;
+    startScene.addChild(instructionLabel);
 
     let startLabel2 = new PIXI.Text("Made for 2 players!");
     startLabel2.style = new PIXI.TextStyle({
@@ -260,7 +278,7 @@ function createLabelsAndButtons(){
         fontSize: 32,
         fontFamily: "Florence",
         fontStyle: "italic",
-        stroke: 0x91A6FF,
+        stroke: 0x14dbfa,
         strokeThickness: 6
     });
     startLabel2.x = (sceneWidth - startLabel2.width) / 2;
@@ -277,15 +295,6 @@ function createLabelsAndButtons(){
     startButton.on("pointerover", e=>e.target.alpha = 0.7);
     startButton.on("pointerout", e=>e.currentTarget.alpha = 1.0);
     startScene.addChild(startButton);
-
-    //Readd this once we implement scores
-    let textStyle = new PIXI.TextStyle({
-        fill: 0xFFFFFF,
-        fontSize: 18,
-        fontFamily: "Florence",
-        stroke: 0xFF0000,
-        strokeThickness: 4
-    });
 
     p1ScoreLabel = new PIXI.Text();
     p1ScoreLabel.style = textStyle;
@@ -312,7 +321,6 @@ function createLabelsAndButtons(){
     pauseLabel = new PIXI.Text("Game Paused");
     pauseLabel.style = pauseTextStyle;
     pauseLabel.parent = pauseLabel;
-    // pauseLabel.x = (sceneWidth - pauseLabel.width) / 2;
     pauseLabel.x = 125;
     pauseLabel.y = 200;
     pauseLabel.visible = true;

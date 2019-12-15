@@ -24,11 +24,12 @@ class Brick extends PIXI.Graphics{
 
 //Ball is a circle with a fwd vector to calculate direction
 class Ball extends PIXI.Graphics{
-    constructor(color=0xFFFFFF, x=0, y=0, radius=4, speed=100, p1LastHit = true){
+    constructor(color=0xFF1690, outlineColor=0xFF1690, x=0, y=0, radius=4, speed=100, p1LastHit = true){
         super();
         this.beginFill(color);
-        this.drawCircle(x,y,radius);
-        this.endFill();
+        this.lineStyle(2, outlineColor);
+        this.drawCircle(x,y,radius);       
+        this.endFill();    
         this.x = x;
         this.y = y;
         this.radius = radius;
