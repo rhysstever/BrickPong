@@ -13,7 +13,7 @@ let paused;
 
 //Lots of variables: each of the scenes, all of the labels, the buttons, and who won
 let startScene, gameScene, gameOverScene;
-let titleLabel, startLabel, p1InstructionLabel, p2InstructionLabel, p1ScoreLabel, p2ScoreLabel, pauseLabel, pauseLabel2, gameOverScoreLabel, gameOverText;
+let titleLabel, startLabel, p1InstructionLabel, p2InstructionLabel, p1ScoreLabel, p2ScoreLabel, victoryLabel, pauseLabel, pauseLabel2, gameOverScoreLabel, gameOverText;
 let startButton, playAgainButton, exitButton;
 let winner;
 
@@ -276,7 +276,7 @@ function createLabelsAndButtons(){
         fontFamily: 'outrun, sans-serif'
     });
     p1InstructionLabel.x = (sceneWidth - p1InstructionLabel.width) / 2;
-    p1InstructionLabel.y = sceneHeight - 125;
+    p1InstructionLabel.y = sceneHeight - 175;
     startScene.addChild(p1InstructionLabel);
 
     p2InstructionLabel = new PIXI.Text("Player 2: Use the Up/Down arrow keys to move Up/Down");
@@ -286,8 +286,18 @@ function createLabelsAndButtons(){
         fontFamily: 'outrun, sans-serif'
     });
     p2InstructionLabel.x = (sceneWidth - p2InstructionLabel.width) / 2;
-    p2InstructionLabel.y = sceneHeight - 75;
+    p2InstructionLabel.y = sceneHeight - 125;
     startScene.addChild(p2InstructionLabel);
+
+    victoryLabel = new PIXI.Text("First one to 500 points wins!");
+    victoryLabel.style = new PIXI.TextStyle({
+        fill: 0x2DE2E6,
+        fontSize: 48,
+        fontFamily: 'outrun, sans-serif'
+    });
+    victoryLabel.x = (sceneWidth - victoryLabel.width) / 2;
+    victoryLabel.y = sceneHeight - 75;
+    startScene.addChild(victoryLabel);
 
     let startLabel = new PIXI.Text("Made for 2 players!");
     startLabel.style = new PIXI.TextStyle({
@@ -299,13 +309,13 @@ function createLabelsAndButtons(){
         strokeThickness: 6
     });
     startLabel.x = (sceneWidth - startLabel.width) / 2;
-    startLabel.y = 300;
+    startLabel.y = 200;
     startScene.addChild(startLabel);
 
     startButton = new PIXI.Text("Start Game");
     startButton.style = buttonStyle;
     startButton.x = (sceneWidth - startButton.width) / 2;
-    startButton.y = 3 * (sceneHeight / 4) - startButton.height;
+    startButton.y = 3 * (sceneHeight / 4) - startButton.height - 100;
     startButton.interactive = true;
     startButton.buttonMode = true;
     startButton.on("pointerup", startGame);
