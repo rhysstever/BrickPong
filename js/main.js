@@ -142,7 +142,7 @@ function gameLoop(){
                 increaseScoreBy(100, player1);
                 ball = new Ball(0xFF1690, 0x14dbfa, 0, 0, 5, 200, true);
                 gameScene.addChild(ball);
-                ball.x = 200;
+                ball.x = sceneWidth / 3 + 25;
                 ball.y = sceneHeight / 2;
                 ball.fwd = getRandomUnitVector();
                 ball.fwd.x = -ball.fwd.x;
@@ -151,7 +151,7 @@ function gameLoop(){
             else{
                 increaseScoreBy(100, player2);
                 ball = new Ball(0xFF1690, 0x14dbfa, 0, 0, 5, 200, false);
-                ball.x = sceneWidth - 200;
+                ball.x = 2 * sceneWidth / 3 - 25;
                 ball.y = sceneHeight / 2;
                 ball.fwd = getRandomUnitVector();
                 gameScene.addChild(ball);
@@ -394,9 +394,9 @@ function startGame(){
     player2.y = sceneHeight / 2;
 
     //Spawn balls
-    ball1.x = sceneWidth / 4;
+    ball1.x = sceneWidth / 3 + 25;
     ball1.y = sceneHeight / 2;
-    ball2.x = 3 * sceneWidth / 4;
+    ball2.x = 2 * sceneWidth / 3 - 25;
     ball2.y = sceneHeight / 2;
 
     //Check if any bricks are stored and need to be removed
@@ -405,7 +405,6 @@ function startGame(){
             b.isAlive = false;
             gameScene.removeChild(b);
         }
-        
     }
     
     music.play();
