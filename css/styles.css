@@ -1,8 +1,21 @@
+@font-face{
+    font-family: "outrun";
+    src: url("../fonts/Outrun-future_1.ttf");
+}
+
 html, body{
     margin: 0rem;
     padding: 0rem;
 }
 
+h1{
+    font-family: 'outrun';
+}
+
 canvas{
     position: absolute;
 }
+
+
+
+* {padding: 0; margin: 0}

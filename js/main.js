@@ -23,7 +23,7 @@ let backgroundImage;
 
 //Setup event
 PIXI.loader
-  .add("images/Outrun.png")
+  .add(["images/Outrun.png"], ["fonts/Outrun2.xml"])
   .load(setup);
 
 //Track all the active components
@@ -194,12 +194,20 @@ function gameLoop(){
 }
 
 function addColors(){
-    //Colors from coolors.co
-    colors.push(0xFF1690);
-    colors.push(0x14dbfa);
-    colors.push(0xFF88DC);
-    colors.push(0xFAFF7F);
-    colors.push(0xEAFDF8);
+    // Dark Purple
+    colors.push(0x0D0221);
+
+    // Medium purple
+    colors.push(0x540D6E);
+
+    // Bright Blue
+    colors.push(0x2DE2E6);
+
+    // Bright Red
+    colors.push(0xFF3864);
+
+    // Orange
+    colors.push(0xFF6C11);
 }
 
 function randColor(){
@@ -235,28 +243,26 @@ function checkKeys(){
 function createLabelsAndButtons(){
     // Cyberpunk style font, like text
     let buttonStyle = new PIXI.TextStyle({
-        fill: 0xFF0000,
+        fill: 0xFF3864,
         fontSize: 48,
-        fontFamily: "Florence",
-        fontStyle: "italic",
-        textShadow: "50px 5px 0x00FF00"
+        fontFamily: "outrun, sans-serif",
+        fontStyle: "italic"
     });
     let textStyle = new PIXI.TextStyle({
-        fill: 0xFFFFFF,
+        fill: 0xFF6C11,
         fontSize: 18,
-        fontFamily: "Florence",
-        stroke: 0xFF0000,
+        fontFamily: "outrun, sans-serif",
+        stroke: 0x0D0221,
         strokeThickness: 4
     });
 
     titleLabel = new PIXI.Text("Brick Pong");
     titleLabel.style = new PIXI.TextStyle({
-        fill: 0xFFFFFF,
-        fontSize: 96,
-        fontFamily: 'Florence',
-        fontWeight: 'Bold',
-        stroke: 0xFF1690,
-        strokeThickness: 4
+        fill: 0x2DE2E6,
+        fontSize: 72,
+        fontFamily: 'outrun, sans-serif',
+        stroke: 0xFF3864,
+        strokeThickness: 6
     });
     titleLabel.x = (sceneWidth - titleLabel.width) / 2;
     titleLabel.y = sceneHeight / 4 - titleLabel.height;
@@ -265,9 +271,9 @@ function createLabelsAndButtons(){
     // Controls for each player
     p1InstructionLabel = new PIXI.Text("Player 1: Use W/S to move Up/Down");
     p1InstructionLabel.style = new PIXI.TextStyle({
-        fill: 0x14dbfa,
+        fill: 0x2DE2E6,
         fontSize: 32,
-        fontFamily: 'Florence'
+        fontFamily: 'outrun, sans-serif'
     });
     p1InstructionLabel.x = (sceneWidth - p1InstructionLabel.width) / 2;
     p1InstructionLabel.y = sceneHeight - 125;
@@ -275,9 +281,9 @@ function createLabelsAndButtons(){
 
     p2InstructionLabel = new PIXI.Text("Player 2: Use the Up/Down arrow keys to move Up/Down");
     p2InstructionLabel.style = new PIXI.TextStyle({
-        fill: 0x14dbfa,
+        fill: 0x2DE2E6,
         fontSize: 32,
-        fontFamily: 'Florence'
+        fontFamily: 'outrun, sans-serif'
     });
     p2InstructionLabel.x = (sceneWidth - p2InstructionLabel.width) / 2;
     p2InstructionLabel.y = sceneHeight - 75;
@@ -285,11 +291,11 @@ function createLabelsAndButtons(){
 
     let startLabel2 = new PIXI.Text("Made for 2 players!");
     startLabel2.style = new PIXI.TextStyle({
-        fill: 0xFFFFFF,
+        fill: 0xFF6C11,
         fontSize: 32,
-        fontFamily: "Florence",
+        fontFamily: "outrun, sans-serif",
         fontStyle: "italic",
-        stroke: 0x14dbfa,
+        stroke: 0x540D6E,
         strokeThickness: 6
     });
     startLabel2.x = (sceneWidth - startLabel2.width) / 2;
@@ -322,10 +328,10 @@ function createLabelsAndButtons(){
     increaseScoreBy(0, player2);
 
     let pauseTextStyle = new PIXI.TextStyle({
-        fill: 0xFFFFFF,
+        fill: 0x2DE2E6,
         fontSize: 30,
-        fontFamily: "Florence",
-        stroke: 0x91A6FF,
+        fontFamily: "outrun, sans-serif",
+        stroke: 0xFF3864,
         strokeThickness: 6
     });
 
@@ -345,31 +351,41 @@ function createLabelsAndButtons(){
     pauseLabel2.y = 200;
     pauseLabel2.visible = true;
     gameScene.addChild(pauseLabel2);
-
-    //change this text when game is over
-    textStyle = new PIXI.TextStyle({
-        fill: 0xFFFFFF,
-        fontSize: 64,
-        fontFamily: "Florence",
-        stroke: 0x91A6FF,
-        strokeThickness: 6
-    });
     
     gameOverText = new PIXI.Text("Victory for {winner}!");
-    gameOverText.style = textStyle;
-    gameOverText.x = (sceneWidth / 2) - 250;
+    gameOverText.style = new PIXI.TextStyle({
+        fill: 0x2DE2E6,
+        fontSize: 48,
+        fontFamily: "outrun, sans-serif",
+        stroke: 0xFF3864,
+        strokeThickness: 6
+    });
+    gameOverText.x = (sceneWidth / 2) - (gameOverText.width / 2);
     gameOverText.y = sceneHeight/2 - 160;
     gameOverScene.addChild(gameOverText);
 
     //Same as winner text when game is over
     gameOverScoreLabel = new PIXI.Text("Final score: player1.score to player2.score");
-    gameOverScoreLabel.style = textStyle;
-    gameOverScoreLabel.x = (sceneWidth / 2) - 275;
+    gameOverScoreLabel.style = new PIXI.TextStyle({
+        fill: 0x2DE2E6,
+        fontSize: 48,
+        fontFamily: "outrun, sans-serif",
+        stroke: 0xFF3864,
+        strokeThickness: 6
+    });
+    gameOverScoreLabel.x = (sceneWidth / 2) - 250;
     gameOverScoreLabel.y = sceneHeight - 300;
     gameOverScene.addChild(gameOverScoreLabel);
 
     playAgainButton = new PIXI.Text("Play Again?");
-    playAgainButton.style = buttonStyle;
+    playAgainButton.style = new PIXI.TextStyle({
+        fill: 0x2DE2E6,
+        fontSize: 48,
+        fontFamily: "outrun, sans-serif",
+        fontStyle: "italic",
+        stroke: 0x540D6E,
+        strokeThickness: 6
+    });;
     playAgainButton.x = 3 * (sceneWidth / 4) - playAgainButton.width;
     playAgainButton.y = sceneHeight - 100;
     playAgainButton.interactive = true;
@@ -381,7 +397,14 @@ function createLabelsAndButtons(){
 
     // Make button back to main menu
     exitButton = new PIXI.Text("Escape");
-    exitButton.style = buttonStyle;
+    exitButton.style = new PIXI.TextStyle({
+        fill: 0x2DE2E6,
+        fontSize: 48,
+        fontFamily: "outrun, sans-serif",
+        fontStyle: "italic",
+        stroke: 0x540D6E,
+        strokeThickness: 6
+    });
     exitButton.x = (sceneWidth / 4);
     exitButton.y = sceneHeight - 100;
     exitButton.interactive = true;
