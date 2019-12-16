@@ -13,7 +13,7 @@ let paused;
 
 //Lots of variables: each of the scenes, all of the labels, the buttons, and who won
 let startScene, gameScene, gameOverScene;
-let titleLabel, p1ScoreLabel, p2ScoreLabel, pauseLabel, pauseLabel2, gameOverScoreLabel, gameOverText;
+let titleLabel, p1InstructionLabel, p2InstructionLabel, p1ScoreLabel, p2ScoreLabel, pauseLabel, pauseLabel2, gameOverScoreLabel, gameOverText;
 let startButton, playAgainButton, exitButton;
 let winner;
 
@@ -262,15 +262,26 @@ function createLabelsAndButtons(){
     titleLabel.y = sceneHeight / 4 - titleLabel.height;
     startScene.addChild(titleLabel);
 
-    let instructionLabel = new PIXI.Text("Use the Up and Down Arrow Keys to Move");
-    instructionLabel.style = new PIXI.TextStyle({
+    // Controls for each player
+    p1InstructionLabel = new PIXI.Text("Player 1: Use W/S to move Up/Down");
+    p1InstructionLabel.style = new PIXI.TextStyle({
         fill: 0x14dbfa,
         fontSize: 32,
         fontFamily: 'Florence'
     });
-    instructionLabel.x = (sceneWidth - instructionLabel.width) / 2;
-    instructionLabel.y = sceneHeight - 100;
-    startScene.addChild(instructionLabel);
+    p1InstructionLabel.x = (sceneWidth - p1InstructionLabel.width) / 2;
+    p1InstructionLabel.y = sceneHeight - 125;
+    startScene.addChild(p1InstructionLabel);
+
+    p2InstructionLabel = new PIXI.Text("Player 2: Use the Up/Down arrow keys to move Up/Down");
+    p2InstructionLabel.style = new PIXI.TextStyle({
+        fill: 0x14dbfa,
+        fontSize: 32,
+        fontFamily: 'Florence'
+    });
+    p2InstructionLabel.x = (sceneWidth - p2InstructionLabel.width) / 2;
+    p2InstructionLabel.y = sceneHeight - 75;
+    startScene.addChild(p2InstructionLabel);
 
     let startLabel2 = new PIXI.Text("Made for 2 players!");
     startLabel2.style = new PIXI.TextStyle({
