@@ -558,11 +558,22 @@ function changeBallAngle(ball, player){
 
     // Creates new x/y components for the ball's direction
     let newX = Math.cos(angle);
-    let newY = Math.sin(angle);
 
-    if(player == player1)
-        newX = -newX;
+    //Old y calc system was causing too much trouble
+    //let newY = Math.sin(angle);
+
+    //Make sure the new angle is valid
+    if(newX == 0){
+        newX = 0.3;
+    }
+    if(player == player1 && newX <= 0) newX = -newX;
+    if(player == player2 && newX >= 0) newX = -newX;
 
     // Applies it to the ball
-    ball.changeAng(newX, newY);
+    ball.changeAng(newX, ball.fwd.y);
+    ball.reflectY();
+}
+
+function newVelocity(ball, player){
+
 }
