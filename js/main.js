@@ -322,7 +322,7 @@ function createLabelsAndButtons(){
 
     p2ScoreLabel = new PIXI.Text();
     p2ScoreLabel.style = textStyle;
-    p2ScoreLabel.x = sceneWidth - 80 - p2ScoreLabel.width;
+    p2ScoreLabel.x = sceneWidth - 110 - p2ScoreLabel.width;
     p2ScoreLabel.y = 10;
     gameScene.addChild(p2ScoreLabel);
     increaseScoreBy(0, player2);
