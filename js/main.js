@@ -13,7 +13,7 @@ let paused;
 
 //Lots of variables: each of the scenes, all of the labels, the buttons, and who won
 let startScene, gameScene, gameOverScene;
-let titleLabel, p1InstructionLabel, p2InstructionLabel, p1ScoreLabel, p2ScoreLabel, pauseLabel, pauseLabel2, gameOverScoreLabel, gameOverText;
+let titleLabel, startLabel, p1InstructionLabel, p2InstructionLabel, p1ScoreLabel, p2ScoreLabel, pauseLabel, pauseLabel2, gameOverScoreLabel, gameOverText;
 let startButton, playAgainButton, exitButton;
 let winner;
 
@@ -283,8 +283,8 @@ function createLabelsAndButtons(){
     p2InstructionLabel.y = sceneHeight - 75;
     startScene.addChild(p2InstructionLabel);
 
-    let startLabel2 = new PIXI.Text("Made for 2 players!");
-    startLabel2.style = new PIXI.TextStyle({
+    startLabel = new PIXI.Text("Made for 2 players!");
+    startLabel.style = new PIXI.TextStyle({
         fill: 0xFFFFFF,
         fontSize: 32,
         fontFamily: "Florence",
@@ -292,9 +292,9 @@ function createLabelsAndButtons(){
         stroke: 0x14dbfa,
         strokeThickness: 6
     });
-    startLabel2.x = (sceneWidth - startLabel2.width) / 2;
-    startLabel2.y = 300;
-    startScene.addChild(startLabel2);
+    startLabel.x = (sceneWidth - startLabel.width) / 2;
+    startLabel.y = 300;
+    startScene.addChild(startLabel);
 
     startButton = new PIXI.Text("Start Game");
     startButton.style = buttonStyle;
